@@ -1,0 +1,33 @@
+p {
+  color: #222b45;
+  font-family: Open Sans, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
+nb-list-item {
+  cursor: pointer;
+}
+
+nb-card-header {
+  display: flex;
+  align-items: center;
+}
+
+.page-active {
+  font-weight: bold;
+}
+
+tbody {
+  tr {
+    cursor: pointer;
+  }
+}
+
+.table-rec {
+  .table th,
+  .table td {
+    padding: 0.4rem;
+  }
+}

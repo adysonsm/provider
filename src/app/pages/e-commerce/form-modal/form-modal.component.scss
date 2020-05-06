@@ -1,0 +1,20 @@
+@import '../../../@theme/styles/themes.scss';
+
+
+@include nb-install-component() {
+  input {
+    width: 100%;
+  }
+
+  .cancel {
+    margin-right: 1rem;
+  }
+}
+
+
+nb-card {
+    max-width: 400px;
+    @media (max-width: 480px) {
+
+    }
+  }

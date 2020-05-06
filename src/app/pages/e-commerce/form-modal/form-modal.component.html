@@ -1,0 +1,31 @@
+<nb-card>
+    <nb-card-header>Adicionar gestor</nb-card-header>
+    <nb-card-body>
+        <form action="">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Nome">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Senha">
+            </div>
+            <div class="form-group">
+                <nb-select placeholder="Ativo" class="mr-2">
+                    <nb-option value=""></nb-option>
+                    <nb-option value="0">SIM</nb-option>
+                    <nb-option value="1">NÃO</nb-option>
+                </nb-select>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                <label class="custom-control-label" for="customCheck1">Enviar Senha</label>
+            </div>
+        </form>
+    </nb-card-body>
+    <nb-card-footer>
+        <button class="cancel" nbButton status="basic" (click)="cancel()">Cancel</button>
+        <button nbButton status="primary" (click)="submit()">Confirmar</button>
+    </nb-card-footer>
+</nb-card>

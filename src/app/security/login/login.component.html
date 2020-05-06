@@ -1,0 +1,37 @@
+<main class="w-100 h-100">
+    <div class="container p-md-5 ">
+        <div class="row justify-content-center d-flex">
+            <div class="col-md-6 col-sm-12 mt-4">
+                <div class="card">
+                    <div class="card-header">
+                        <p></p>
+                    </div>
+                    <div class="card-body p-md-5 p-sm-0">
+                        <div class="row d-flex justify-content-md-center">
+                            <div class="col-md-6  text-center  mr-3">
+                                <img class="img-fluid header-img" src="assets/images/login-logo.png" alt="" srcset="">
+                            </div>
+                            <div class="col-12">
+                                <form [formGroup]="formlogin">
+                                    <div class="form-group mt-4">
+                                        <label for="exampleFormControlInput1">Email</label>
+                                        <input type="text" class="form-control" placeholder="Email" formControlName="email">
+                                    </div>
+                                    <div class="form-group mt-4">
+                                        <label for="exampleFormControlInput1">Senha</label>
+                                        <input type="password" class="form-control" placeholder="Senha" formControlName="password">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-lg w-100 25 mb-2 mt-4" (click)="login()" >Entrar</button>
+                                    
+                                    <a href="" class="mt-" >Esqueci minha Senha</a>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

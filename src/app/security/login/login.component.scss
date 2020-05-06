@@ -1,0 +1,25 @@
+main {
+  background-color: #edf1f7;
+  width: 500px;
+  min-height: 100vh;
+  margin: 0px auto;
+  position: relative;
+}
+
+.card {
+  background-color: #fff;
+  border: 0.0625rem solid #e4e9f2;
+  border-radius: 0.25rem;
+}
+
+.card-header {
+    background-color: white;
+}
+
+.header-img {
+    @media screen and (max-device-width: 480px) {
+       max-width: 60%;
+    }
+}
+
+

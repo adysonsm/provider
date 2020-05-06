@@ -1,0 +1,22 @@
+nb-card {
+  max-width: 400px;
+  max-height: 200px;
+}
+@media (max-width: 480px) {
+  nb-card {
+    max-height: 400px;
+  }
+  nb-card .btn-primary {
+    margin-bottom: 10px;
+  }
+}
+nb-card-footer {
+  display: flex;
+  justify-content: space-between;
+}
+@media (max-width: 480px) {
+  nb-card-footer {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
