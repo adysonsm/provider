@@ -7,8 +7,129 @@ import { FormModalComponent } from './form-modal/form-modal.component';
   selector: "ngx-ecommerce",
   templateUrl: "./e-commerce.component.html",
   styleUrls: ["./e-commerce.component.scss"],
+  preserveWhitespaces: true
 })
 export class ECommerceComponent {
+
+  demo_hint =`
+  interface initOpts {{'{'}}
+  devicePixelRatio?: number,
+  renderer?: string,
+  width?: number|string,
+  height? number|string,
+}`;
+
+options = {
+  color: ['#3398DB'],
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: [
+    {
+      type: 'category',
+      data: ['JAN/20', 'FEV/20', 'MAR/20', 'ABR/20', 'MAIO'],
+      axisTick: {
+        alignWithLabel: true
+      }
+    }
+  ],
+  yAxis: [{
+    type: 'value'
+  }],
+  series: [{
+    name: '%',
+    type: 'bar',
+    barWidth: '60%',
+    data: [60, 20, 40, 10, 120]
+  }]
+};
+
+initOpts = {
+  renderer: 'svg',
+  width: 250,
+  height: 250
+};
+
+ 
+hoursWorks = {
+  color: ['#3398DB'],
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: [
+    {
+      type: 'category',
+      data: ['H.trabalhadas', 'H.úteis'],
+      axisTick: {
+        alignWithLabel: true
+      }
+    }
+  ],
+  yAxis: [{
+    type: 'value'
+  }],
+  series: [{
+    name: 'horas',
+    type: 'bar',
+    barWidth: '60%',
+    data: [5668, 5376]
+  }]
+};
+
+collaborators = {
+  color: ['#3398DB'],
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: [
+    {
+      type: 'category',
+      data: ['JAN/20', 'FEV/20', 'MAR/20', 'ABR/20', 'MAIO'],
+      axisTick: {
+        alignWithLabel: true
+      }
+    }
+  ],
+  yAxis: [{
+    type: 'value'
+  }],
+  series: [{
+    name: 'n° de colaboradores',
+    type: 'bar',
+    barWidth: '60%',
+    data: [8, 11, 3, 10]
+  }]
+};
+
+
+
   public step: number = 0;
   frag = false;
   names: string[] = [];

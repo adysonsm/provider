@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: "pages",
     loadChildren: () =>
-      import("./pages/pages.module").then((m) => m.PagesModule), canLoad: [LoggedInGuard]
+      import("./pages/pages.module").then((m) => m.PagesModule)
   },
   {path:"login", component: LoginComponent},
   { path: '', redirectTo: 'pages', pathMatch: 'full' },

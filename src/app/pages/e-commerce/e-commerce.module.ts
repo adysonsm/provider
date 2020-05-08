@@ -16,6 +16,7 @@ import { ECommerceComponent } from './e-commerce.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { ModalConfirmationComponent } from './modal-confirmation/modal-confirmation.component';
 import { FormModalComponent } from './form-modal/form-modal.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   imports: [
@@ -29,6 +30,8 @@ import { FormModalComponent } from './form-modal/form-modal.component';
     NbProgressBarModule,
     LeafletModule,
     NbListModule,
+    NgxEchartsModule
+  
   ],
   declarations: [
     ECommerceComponent,

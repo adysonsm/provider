@@ -6,6 +6,15 @@ p {
   line-height: 1.5rem;
 }
 
+.font-list {
+  color: #222b45;
+  font-family: Open Sans, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  margin-left: 40px;
+}
+
 nb-list-item {
   cursor: pointer;
 }
@@ -31,3 +40,29 @@ tbody {
     padding: 0.4rem;
   }
 }
+
+.breadcrumb {
+  background-color: white;
+}
+
+.btns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btns-projects {
+  @media screen and (max-device-width: 480px) {
+    .btn-primary {
+      margin-top: 20px;
+    }
+  }
+}
+
+nb-select {
+  @media screen and (max-device-width: 480px) {
+    width: 100%;
+    margin-top: 15px;
+    
+  }
+}
+
