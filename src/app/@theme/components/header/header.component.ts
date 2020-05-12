@@ -57,6 +57,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    // setTimeout(() => {
+    //   this.toggleSidebar();
+    // }, 100);
     this.menuService.onItemClick().subscribe(item => this.logout())
     this.currentTheme = this.themeService.currentTheme;
 

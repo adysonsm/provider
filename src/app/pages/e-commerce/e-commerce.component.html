@@ -32,7 +32,6 @@
   </div>
 </div>
 
-
 <div class="row" *ngIf="step === 1">
   <div class="col-xxl-12">
     <nb-card>
@@ -113,14 +112,37 @@
             <nb-tabset>
               <nb-tab tabTitle="Projetos">
                 <div class="row mt-3 my-2">
-
                   <div class="col-12">
+                    <div class="row my-2">
+                      <div class="col-sm-12 col-md-3">
+                        <table class="table table-sm table-borderless">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Unidade</th>
+                              <td>São Paulo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Cliente</th>
+                              <td>Original</td>
+                            </tr>
+                            <tr>
+                              <!-- <th scope="row">Gestor de Negócio</th>
+                              <td>Claudio</td> -->
+                            </tr>
+                            <tr *ngIf="!frag">
+                              <!-- <th scope="row">WBS</th>
+                              <td>4912 - Liguidação de Renovação</td> -->
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
                     <table class="table table-hover table-responsive-sm">
                       <thead>
                         <tr>
-                          <th scope="col">WBS</th>
-                          <th scope="col">Nome do Projeto</th>
-                          <th scope="col">Gestor Provider</th>
+                          <th scope="col">Operação</th>
+                          <th scope="col">Nome</th>
+                          <th scope="col">Gestor de Negócio</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -146,15 +168,15 @@
                   <div class="col-12 d-flex justify-content-center my-2">
                     <div class="row">
                       <div class="col-12 btns-projects">
-                        <button class="btn btn-secondary mr-md-4 mr-sm-0" (click)="advanceStep(true)">Ver Todos os
-                          Projetos</button>
-                        <button class="btn btn-primary" (click)="advanceStep(true)">Ver Todos os recursos</button>
+                        <button class="btn btn-secondary mr-md-4 mr-sm-0" (click)="advanceStep(true)">Todas as
+                          Operações</button>
+                        <button class="btn btn-primary" (click)="advanceStep(7)">Todos os Recursos</button>
                       </div>
                     </div>
                   </div>
                 </div>
               </nb-tab>
-              <nb-tab tabTitle="Gestores">
+              <nb-tab tabTitle="Cliente">
                 <div class="row">
                   <div class="col-12">
                     <a (click)="open3()" class="ml-2">
@@ -249,19 +271,19 @@
                         <table class="table table-sm table-borderless">
                           <tbody>
                             <tr>
-                              <th scope="row">Unidade:</th>
+                              <th scope="row">Unidade</th>
                               <td>São Paulo</td>
                             </tr>
                             <tr>
-                              <th scope="row">Cliente:</th>
+                              <th scope="row">Cliente</th>
                               <td>Original</td>
                             </tr>
                             <tr>
-                              <th scope="row">Gestor Provider:</th>
+                              <th scope="row">Gestor de Negócio</th>
                               <td>Claudio</td>
                             </tr>
                             <tr *ngIf="!frag">
-                              <th scope="row">Wbs:</th>
+                              <th scope="row">Operação</th>
                               <td>4912 - Liguidação de Renovação</td>
                             </tr>
                           </tbody>
@@ -272,11 +294,14 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <nb-select placeholder="semestre" class="mr-md-2">
+                    <div>
+                      <label for="">Selecione o período que deseja visualizar:</label>
+                    </div>
+                    <!-- <nb-select placeholder="semestre" class="mr-md-2">
                       <nb-option value=""></nb-option>
                       <nb-option value="0">1°</nb-option>
                       <nb-option value="1">2°</nb-option>
-                    </nb-select>
+                    </nb-select> -->
                     <nb-select placeholder="ano" class="ano">
                       <nb-option value=""></nb-option>
                       <nb-option value="0">2018</nb-option>
@@ -286,14 +311,14 @@
                   </div>
                 </div>
                 <div class="row mt-3">
-                  <!-- <span >BV-WBS 4878 <br></span>Gestor Provide: Cláudio -->
+                  <!-- <span >BV-WBS 4878 <br></span>Gestor de Negócio Provide: Cláudio -->
                   <div class="col-12">
                     <table class="table table-hover table-responsive-sm">
                       <thead>
                         <tr>
 
                           <th scope="col">Períodos</th>
-                          <th scope="col">Total de Recursos</th>
+                          <th scope="col" class="text-center">Total de Recursos</th>
                           <th scope="col">TH</th>
                           <th scope="col">THN</th>
                           <th scope="col">THE</th>
@@ -304,7 +329,7 @@
                       <tbody>
                         <tr (click)="advanceStep()">
                           <th scope="row">ABR/2020</th>
-                          <td>70</td>
+                          <td class="text-center">70</td>
                           <td>1000</td>
                           <td>1000</td>
                           <td>1000</td>
@@ -312,7 +337,7 @@
                         </tr>
                         <tr (click)="advanceStep()">
                           <th scope="row">MAR/2020</th>
-                          <td>70</td>
+                          <td class="text-center">70</td>
                           <td>1000</td>
                           <td>1000</td>
                           <td>1000</td>
@@ -320,7 +345,7 @@
                         </tr>
                         <tr (click)="advanceStep()">
                           <th scope="row">FEV/2020</th>
-                          <td>70</td>
+                          <td class="text-center">70</td>
                           <td>1000</td>
                           <td>1000</td>
                           <td>1000</td>
@@ -334,11 +359,11 @@
                   <div class="col-12 mt-4">
                     <div class="row">
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
-                        <span class="font-list">Produtidade por Perído</span>
+                        <span class="font-list">Produtividade por Período</span>
                         <echarts [initOpts]="initOpts" [options]="options"></echarts>
                       </div>
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
-                        <p>Horas Úteis & Horas Trabalhadas no Perído</p>
+                        <p>Horas Úteis & Horas Trabalhadas no Período</p>
                         <echarts [initOpts]="initOpts" [options]=" hoursWorks"></echarts>
                       </div>
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
@@ -349,7 +374,7 @@
                   </div>
                 </div>
               </nb-tab>
-              <nb-tab tabTitle="Gestores">
+              <nb-tab tabTitle="Cliente">
                 <div class="row">
                   <div class="col-12">
                     <a (click)="open3()" class="ml-2">
@@ -425,7 +450,7 @@
                   <li class="breadcrumb-item">Clientes</li>
                   <li class="breadcrumb-item">Projetos</li>
                   <li class="breadcrumb-item ">Período</li>
-                  <li class="breadcrumb-item page-active">Recursos</li>
+                  <li class="breadcrumb-item page-active">Alocação</li>
                 </ol>
               </nav>
             </div>
@@ -438,7 +463,7 @@
         <div class="row">
           <div class="col-12">
             <nb-tabset>
-              <nb-tab tabTitle="Recursos">
+              <nb-tab tabTitle="Alocação">
                 <div class="row my-2">
                   <div class="col-12">
                     <div class="row my-2">
@@ -446,23 +471,23 @@
                         <table class="table table-sm table-borderless">
                           <tbody>
                             <tr>
-                              <th scope="row">Unidade:</th>
+                              <th scope="row">Unidade</th>
                               <td>São Paulo</td>
                             </tr>
                             <tr>
-                              <th scope="row">Cliente:</th>
+                              <th scope="row">Cliente</th>
                               <td>Original</td>
                             </tr>
                             <tr>
-                              <th scope="row">Gestor Provider:</th>
+                              <th scope="row">Gestor de Negócio</th>
                               <td>Claudio</td>
                             </tr>
-                            <tr>
-                              <th scope="row">Wbs:</th>
+                            <tr *ngIf="!frag">
+                              <th scope="row" >Operação</th>
                               <td>4912 - Liguidação de Renovação</td>
                             </tr>
                             <tr>
-                              <th scope="row">Perído Recursos:</th>
+                              <th scope="row">Período</th>
                               <td>Abril/2020</td>
                             </tr>
 
@@ -475,8 +500,8 @@
                     <table class="table table-hover table-responsive-sm">
                       <thead>
                         <tr>
-                          <th scope="col" *ngIf="frag">WBS</th>
-                          <th scope="col">Nome</th>
+                          <th scope="col" *ngIf="frag">Operação</th>
+                          <th scope="col">Profissional</th>
                           <th scope="col">TH</th>
                           <th scope="col">THN</th>
                           <th scope="col">THE</th>
@@ -485,7 +510,7 @@
                       </thead>
                       <tbody>
                         <tr (click)="advanceStep()">
-                          <th scope="row" *ngIf="frag">WBS 4289 - Liquidação de Renovação</th>
+                          <th scope="row" *ngIf="frag">4289 - Liquidação de Renovação</th>
                           <th scope="row">Adyson</th>
                           <td>90</td>
                           <td>1000</td>
@@ -493,7 +518,7 @@
                           <td>1000</td>
                         </tr>
                         <tr (click)="advanceStep()">
-                          <th scope="row" *ngIf="frag">WBS 4289 - Liquidação de Renovação</th>
+                          <th scope="row" *ngIf="frag">4289 - Liquidação de Renovação</th>
                           <th scope="row">LH</th>
                           <td>30</td>
                           <td>1000</td>
@@ -501,7 +526,7 @@
                           <td>1000</td>
                         </tr>
                         <tr (click)="advanceStep()">
-                          <th scope="row" *ngIf="frag">WBS 4289 - Liquidação de Renovação</th>
+                          <th scope="row" *ngIf="frag"> 4289 - Liquidação de Renovação</th>
                           <th scope="row">Matheus</th>
                           <td>80</td>
                           <td>1000</td>
@@ -509,7 +534,7 @@
                           <td>1000</td>
                         </tr>
                         <tr (click)="advanceStep()">
-                          <th scope="row" *ngIf="frag">WBS 4285 - Liquidação de Renovação</th>
+                          <th scope="row" *ngIf="frag"> 4285 - Liquidação de Renovação</th>
                           <th scope="row">Adyson</th>
                           <td>30</td>
                           <td>1000</td>
@@ -519,11 +544,28 @@
                       </tbody>
                     </table>
                   </div>
+
+                  <div class="col-12 mt-4">
+                    <div class="row">
+                      <div class="col-md-4 col-sm-12 mt-4 text-left">
+                        <span class="font-list">Produtividade por Período</span>
+                        <echarts [initOpts]="initOpts" [options]="month"></echarts>
+                      </div>
+                      <div class="col-md-4 col-sm-12 mt-4 text-left">
+                        <p>Horas Úteis & Horas Trabalhadas no Período</p>
+                        <echarts [initOpts]="initOpts" [options]=" hoursWorks"></echarts>
+                      </div>
+                      <div class="col-md-4 col-sm-12 mt-4 text-left">
+                        <p>N° de Profissionais Por Período</p>
+                        <echarts [initOpts]="initOpts" [options]="collaboratorsMonth"></echarts>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
 
               </nb-tab>
-              <nb-tab tabTitle="Gestores">
+              <nb-tab tabTitle="Cliente">
                 <div class="row">
                   <div class="col-12">
                     <a (click)="open3()" class="ml-2">
@@ -582,8 +624,7 @@
   </div>
 </div>
 
-
-<div class="row" *ngIf="step === 5">
+<div class="row" *ngIf="step === 5 || step === 6 ">
   <div class="col-xxl-12">
     <nb-card>
       <nb-card-header>
@@ -599,8 +640,8 @@
                   <li class="breadcrumb-item">Unidades</li>
                   <li class="breadcrumb-item">Clientes</li>
                   <li class="breadcrumb-item">Projetos</li>
-                  <li class="breadcrumb-item ">Períodos</li>
-                  <li class="breadcrumb-item ">Recursos-Período</li>
+                  <li class="breadcrumb-item ">{{step === 5 ? "Períodos" : "Recursos"}} </li>
+                  <li class="breadcrumb-item ">Alocação</li>
                   <li class="breadcrumb-item page-active">Timesheet</li>
                 </ol>
               </nav>
@@ -614,7 +655,7 @@
         <div class="row">
           <div class="col-12">
             <nb-tabset>
-              <nb-tab tabTitle="Recursos">
+              <nb-tab tabTitle="Timesheet">
                 <div class="row my-2">
                   <div class="col-12">
                     <div class="row my-2">
@@ -622,24 +663,32 @@
                         <table class="table table-sm table-borderless">
                           <tbody>
                             <tr>
-                              <th scope="row">Unidade:</th>
+                              <th scope="row">Unidade</th>
                               <td>São Paulo</td>
                             </tr>
                             <tr>
-                              <th scope="row">Cliente:</th>
+                              <th scope="row">Cliente</th>
                               <td>Original</td>
                             </tr>
                             <tr>
-                              <th scope="row">Gestor Provider:</th>
+                              <th scope="row">Gestor de Negócio</th>
                               <td>Claudio</td>
                             </tr>
                             <tr>
-                              <th scope="row">Wbs:</th>
+                              <th scope="row">Operação</th>
                               <td>4912 - Liguidação de Renovação</td>
                             </tr>
                             <tr>
-                              <th scope="row">Perído Recursos:</th>
+                              <th scope="row">Período</th>
                               <td>Abril/2020</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Total de Horas normais</th>
+                              <td>10h</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Total de horas extras</th>
+                              <td>10h</td>
                             </tr>
 
                           </tbody>
@@ -649,7 +698,9 @@
                     </div>
                   </div>
                   <div class="col-12">
-                    <table class="table table-borderless table-responsive" style="padding: 0.4rem;">
+                  </div>
+                  <div class="col-12">
+                    <table class="table table-borderless table-responsive">
                       <hr>
                       <thead>
                         <tr>
@@ -668,47 +719,44 @@
                         </tr>
                       </tbody>
                     </table>
-                  </div>
-                  <div class="col-12">
-                    <p>Timesheet</p>
                     <table class="table table-responsive-sm">
                       <thead>
                         <tr>
                           <th>Data</th>
-                          <th scope="col">HI</th>
-                          <th scope="col">HT</th>
-                          <th scope="col">I</th>
-                          <th scope="col">Total</th>
-                          <th scope="col">Tipo</th>
+                          <!-- <th scope="col" class="text-center">HI</th>
+                          <th scope="col" class="text-center">HT</th>
+                          <th scope="col" class="text-center">I</th> -->
+                          <th scope="col" class="text-center">Total</th>
+                          <th scope="col" class="text-center">Tipo</th>
                           <th scope="col">Descrição</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <th scope="row">01/MAR</th>
-                          <td>09:00</td>
-                          <td>18:00</td>
-                          <td>01:00</td>
-                          <td>08:00</td>
-                          <td>HN</td>
+                          <!-- <td class="text-center">09:00</td>
+                          <td class="text-center">18:00</td>
+                          <td class="text-center">01:00</td> -->
+                          <td class="text-center">08:00</td>
+                          <td class="text-center">HN</td>
                           <td>Capacitação feita, aprendizado em computação avançada</td>
                         </tr>
                         <tr>
                           <th scope="row">02/MAR</th>
-                          <td>09:00</td>
-                          <td>18:00</td>
-                          <td>01:00</td>
-                          <td>08:00</td>
-                          <td>HN</td>
+                          <!-- <td class="text-center">09:00</td>
+                          <td class="text-center">18:00</td>
+                          <td class="text-center">01:00</td> -->
+                          <td class="text-center">08:00</td>
+                          <td class="text-center">HN</td>
                           <td>Capacitação feita, aprendizado em computação avançada</td>
                         </tr>
                         <tr>
                           <th scope="row">03/MAR</th>
-                          <td>09:00</td>
-                          <td>18:00</td>
-                          <td>01:00</td>
-                          <td>08:00</td>
-                          <td>HN</td>
+                          <!-- <td class="text-center">09:00</td>
+                          <td class="text-center">18:00</td>
+                          <td class="text-center">01:00</td> -->
+                          <td class="text-center">08:00</td>
+                          <td class="text-center">HN</td>
                           <td>Capacitação feita, aprendizado em computação avançada</td>
                         </tr>
                       </tbody>
@@ -719,14 +767,14 @@
 
 
               </nb-tab>
-              <nb-tab tabTitle="Gestores">
+              <nb-tab tabTitle="Cliente">
                 <div class="row">
                   <div class="col-12">
                     <a (click)="open3()" class="ml-2">
                       <nb-icon status="primary" icon="person-add-outline" [options]="{ animation: { type: 'zoom' } }"
                         style="font-size: 30px;"></nb-icon>
                     </a>
-                    <table class="table table-responsive">
+                    <table class="table table-responsive-sm">
                       <thead>
                         <tr>
                           <th scope="col">Nome</th>
@@ -777,6 +825,366 @@
   </div>
 </div>
 
+<div class="row" *ngIf="step === 7">
+  <div class="col-xxl-12">
+    <nb-card>
+      <nb-card-header>
+        <a (click)="step=2">
+          <nb-icon icon="arrow-back-outline" status="primary" [options]="{ animation: { type: 'zoom' } }"
+            style="font-size: 40px;"></nb-icon>
+        </a>
+        <div class="">
+          <div class="row text-center">
+            <div class="col-12">
+              <nav>
+                <ol class="breadcrumb m-0">
+                  <li class="breadcrumb-item">Unidades</li>
+                  <li class="breadcrumb-item">Clientes</li>
+                  <li class="breadcrumb-item">Projetos</li>
+                  <li class="breadcrumb-item page-active">Recursos</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </nb-card-header>
+
+
+      <nb-card-body>
+        <div class="row">
+          <div class="col-12">
+            <nb-tabset>
+              <nb-tab tabTitle="Recursos">
+                <div class="row my-2">
+                  <div class="col-12">
+                    <div class="row my-2">
+                      <div class="col-sm-12 col-md-2">
+                        <table class="table table-sm table-borderless">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Unidade</th>
+                              <td>São Paulo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Cliente</th>
+                              <td>Original</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Gestor de Negócio</th>
+                              <td>Claudio</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <!-- <span >BV-WBS 4878 <br></span>Gestor de Negócio Provide: Cláudio -->
+                  <div class="col-12">
+                    <table class="table table-hover table-responsive-sm">
+                      <thead>
+                        <tr>
+
+                          <th scope="col">Recursos</th>
+                          <!-- <th scope="col">TH</th>
+                          <th scope="col">THN</th>
+                          <th scope="col">THE</th>
+                          <th scope="col">THSA</th> -->
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr (click)="advanceStep(8)">
+                          <td class="">Adyson da Silva Moreira</td>
+                          <!-- <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td> -->
+                        </tr>
+                        <tr (click)="advanceStep(8)">
+                          <td>LH</td>
+                          <!-- <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td> -->
+                        </tr>
+                        <tr (click)="advanceStep(8)">
+                          <td>Bahia</td>
+                          <!-- <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td> -->
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </nb-tab>
+              <nb-tab tabTitle="Cliente">
+                <div class="row">
+                  <div class="col-12">
+                    <a (click)="open3()" class="ml-2">
+                      <nb-icon status="primary" icon="person-add-outline" [options]="{ animation: { type: 'zoom' } }"
+                        style="font-size: 30px;"></nb-icon>
+                    </a>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Nome</th>
+                          <th scope="col">Email</th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Adyson da Silva</td>
+                          <td>adyson.sm@gmail.com</td>
+                          <td> <a (click)="open()">
+                              <nb-icon icon="trash-2-outline" status="primary"
+                                [options]="{ animation: { type: 'zoom' } }">
+                              </nb-icon>
+                            </a> <a (click)="open3()">
+                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
+                              </nb-icon>
+                            </a></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">luiz</td>
+                          <td>luiz@gmail.com</td>
+                          <td> <a (click)="open()">
+                              <nb-icon icon="trash-2-outline" status="primary"
+                                [options]="{ animation: { type: 'zoom' } }">
+                              </nb-icon>
+                            </a> <a (click)="open3()">
+                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
+                              </nb-icon>
+                            </a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </nb-tab>
+            </nb-tabset>
+          </div>
+        </div>
+
+
+      </nb-card-body>
+      <nb-card-footer class="d-flex justify-content-end">
+        <!-- <button class="btn btn-secondary">Ver todas</button> -->
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>
+
+<div class="row" *ngIf="step === 8">
+  <div class="col-xxl-12">
+    <nb-card>
+      <nb-card-header>
+        <a (click)="backStep()">
+          <nb-icon icon="arrow-back-outline" status="primary" [options]="{ animation: { type: 'zoom' } }"
+            style="font-size: 40px;"></nb-icon>
+        </a>
+        <div class="">
+          <div class="row text-center">
+            <div class="col-12">
+              <nav>
+                <ol class="breadcrumb m-0">
+                  <li class="breadcrumb-item">Unidades</li>
+                  <li class="breadcrumb-item">Clientes</li>
+                  <li class="breadcrumb-item">Projeto</li>
+                  <li class="breadcrumb-item">Recursos</li>
+                  <li class="breadcrumb-item page-active">Alocação</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </nb-card-header>
+
+
+      <nb-card-body>
+        <div class="row">
+          <div class="col-12">
+            <nb-tabset>
+              <nb-tab tabTitle="Alocação">
+                <div class="row my-2">
+                  <div class="col-12">
+                    <div class="row my-2">
+                      <div class="col-sm-12 col-md-5">
+                        <table class="table table-sm table-borderless">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Unidade</th>
+                              <td>São Paulo</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Cliente</th>
+                              <td>Original</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Gestor de Negócio</th>
+                              <td>Claudio</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Recurso</th>
+                              <td>Adyson da Silva Moreira</td>
+                            </tr>
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <!-- <span >BV-WBS 4878 <br></span>Gestor de Negócio Provide: Cláudio -->
+                  <div class="col-12 my-2">
+                    <div class="row my-2">
+                      <div class="col-12">
+                        <div>
+                          <label for="">Selecione o período que deseja visualizar:</label>
+                        </div>
+                        <!-- <nb-select placeholder="semestre" class="mr-md-2">
+                          <nb-option value=""></nb-option>
+                          <nb-option value="0">1°</nb-option>
+                          <nb-option value="1">2°</nb-option>
+                        </nb-select> -->
+                        <nb-select placeholder="ano" class="ano">
+                          <nb-option value=""></nb-option>
+                          <nb-option value="0">2018</nb-option>
+                          <nb-option value="1">2019</nb-option>
+                          <nb-option value="1">2020</nb-option>
+                        </nb-select>
+                      </div>
+                    </div>
+                    <table class="table table-hover table-responsive-sm">
+                      <thead>
+                        <tr>
+                          <th scope="col">Período</th>
+                          <th scope="col">Operação</th>
+                          <th scope="col">TH</th>
+                          <th scope="col">THN</th>
+                          <th scope="col">THE</th>
+                          <th scope="col">THSA</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr (click)="step=6">
+                          <td>ABRI/2020</td>
+                          <td>493229</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                        </tr>
+                        <tr (click)="step=6">
+                          <td>ABRI/2020</td>
+                          <td>493221</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                        </tr>
+                        <tr (click)="step=6">
+                          <td>MAR/2020</td>
+                          <td>493221</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                        </tr>
+                        <tr (click)="step=6">
+                          <td>FEV/2020</td>
+                          <td>493229</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                          <td>1000</td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                    <div class="col-12 mt-4">
+                      <div class="row d-flex justify-content-center">
+                        <div class="col-md-6 col-sm-12 mt-4 text-left">
+                          <span class="font-list">Produtividade por Período</span>
+                          <echarts [initOpts]="initOpts" [options]="options"></echarts>
+                        </div>
+                        <div class="col-md-6 col-sm-12 mt-4 text-left">
+                          <p>Horas Úteis & Horas Trabalhadas no Período</p>
+                          <echarts [initOpts]="initOpts" [options]=" hoursWorks"></echarts>
+                        </div>
+                        <!-- <div class="col-md-4 col-sm-12 mt-4 text-left">
+                          <p>N° de Profissionais Por Período</p>
+                          <echarts [initOpts]="initOpts" [options]="collaborators"></echarts>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </nb-tab>
+              <nb-tab tabTitle="Cliente">
+                <div class="row">
+                  <div class="col-12">
+                    <a (click)="open3()" class="ml-2">
+                      <nb-icon status="primary" icon="person-add-outline" [options]="{ animation: { type: 'zoom' } }"
+                        style="font-size: 30px;"></nb-icon>
+                    </a>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Nome</th>
+                          <th scope="col">Email</th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Adyson da Silva</td>
+                          <td>adyson.sm@gmail.com</td>
+                          <td> <a (click)="open()">
+                              <nb-icon icon="trash-2-outline" status="primary"
+                                [options]="{ animation: { type: 'zoom' } }">
+                              </nb-icon>
+                            </a> <a (click)="open3()">
+                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
+                              </nb-icon>
+                            </a></td>
+                        </tr>
+                        <tr>
+                          <td scope="row">luiz</td>
+                          <td>luiz@gmail.com</td>
+                          <td> <a (click)="open()">
+                              <nb-icon icon="trash-2-outline" status="primary"
+                                [options]="{ animation: { type: 'zoom' } }">
+                              </nb-icon>
+                            </a> <a (click)="open3()">
+                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
+                              </nb-icon>
+                            </a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </nb-tab>
+            </nb-tabset>
+          </div>
+        </div>
+
+
+      </nb-card-body>
+      <nb-card-footer class="d-flex justify-content-end">
+        <!-- <button class="btn btn-secondary">Ver todas</button> -->
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>
 
 <!-- <div class="row">
   <div class="col-xxl-5">

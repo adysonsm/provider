@@ -48,3 +48,6 @@ tbody tr {
     margin-top: 15px;
   }
 }
+nb-card-body {
+  padding: 0;
+}
