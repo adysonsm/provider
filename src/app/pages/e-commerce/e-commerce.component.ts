@@ -1,7 +1,9 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { NbDialogService } from "@nebular/theme";
 import { ModalConfirmationComponent } from "./modal-confirmation/modal-confirmation.component";
 import { FormModalComponent } from "./form-modal/form-modal.component";
+import { LoginService } from "src/app/security/login/login.service";
+import { DashboardService } from "./dashboard.service";
 
 @Component({
   selector: "ngx-ecommerce",
@@ -9,7 +11,7 @@ import { FormModalComponent } from "./form-modal/form-modal.component";
   styleUrls: ["./e-commerce.component.scss"],
   preserveWhitespaces: true,
 })
-export class ECommerceComponent {
+export class ECommerceComponent implements OnInit {
   demo_hint = `
   interface initOpts {{'{'}}
   devicePixelRatio?: number,
@@ -218,20 +220,45 @@ export class ECommerceComponent {
   frag = false;
   names: string[] = [];
 
-  constructor(private dialogService: NbDialogService) {}
+  public unity: any;
+  public;
+  customers = [];
+
+  selectedFilted = { unity: ""}
+  
+
+  constructor(
+    private dialogService: NbDialogService,
+    private serviceLogin: LoginService,
+    private service: DashboardService
+  ) {}
+
+  ngOnInit(): void {
+    this.service.getUnidadesProvider("202003", "202003").subscribe((data) => {
+      this.unity = data;
+    });
+  }
+
+  getClients(unity: string) {
+    this.service.getClientes(unity).subscribe((data) => {
+      this.customers = data;
+      this.selectedFilted.unity = unity
+      this.step++;
+    });
+  }
 
   advanceStep(hideen?: any) {
     if (hideen) {
       this.frag = true;
     }
     this.step++;
-    if(hideen === 7) {
-      console.log("estou aqui")
+    if (hideen === 7) {
+      console.log("estou aqui");
       this.step = 7;
     }
 
     if (hideen === 8) {
-      this.step = 8
+      this.step = 8;
     }
   }
 

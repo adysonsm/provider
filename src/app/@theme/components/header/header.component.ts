@@ -47,19 +47,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private sidebarService: NbSidebarService,
-    private serviceLogin: LoginService,
+    public serviceLogin: LoginService,
     private menuService: NbMenuService,
     private themeService: NbThemeService,
     private userService: UserData,
     private layoutService: LayoutService,
-    private breakpointService: NbMediaBreakpointsService
+    private breakpointService: NbMediaBreakpointsService,
   ) {}
 
   ngOnInit() {
 
-    // setTimeout(() => {
-    //   this.toggleSidebar();
-    // }, 100);
+    this.user = this.serviceLogin.user.nomeAbreviado;
     this.menuService.onItemClick().subscribe(item => this.logout())
     this.currentTheme = this.themeService.currentTheme;
 

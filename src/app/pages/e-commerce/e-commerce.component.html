@@ -3,10 +3,10 @@
     <nb-card accent="info">
       <nb-card-header>Selecione a Unidade Provider</nb-card-header>
       <nb-card-body>
-        <div class="row">
-          <div class="col-md-12 col-12">
+        <div class="row" *ngIf="unity">
+          <div class="col-md-12 col-12"  *ngIf="unity[0].uf === 'RJ'">
             <nb-list-item class="list-group-item-action align-content-center">
-              <a (click)="advanceStep()" class="d-flex justify-content-between align-center w-100 h-100"
+              <a (click)="getClients(19)" class="d-flex justify-content-between align-center w-100 h-100"
                 style="cursor: pointer;">
                 <img src="assets/images/rj.svg" class="img-fluid" style="max-width: 100px;">
                 <div class="mt-4">
@@ -15,9 +15,9 @@
               </a>
             </nb-list-item>
           </div>
-          <div class="col-md-12 col-12">
+          <div class="col-md-12 col-12"  *ngIf="unity[1].uf === 'SP'">
             <nb-list-item class="  list-group-item-action align-content-center">
-              <a (click)="advanceStep()" class="d-flex justify-content-between align-center w-100 h-100"
+              <a (click)="getClients(25)" class="d-flex justify-content-between align-center w-100 h-100"
                 style="cursor: pointer;">
                 <img src="assets/images/sp.svg" class="img-fluid" style="max-width: 100px;">
                 <div class="mt-4">
@@ -54,27 +54,12 @@
         </div>
 
       </nb-card-header>
-      <nb-card-body>
-        <p>Lista de Clientes SP</p>
+      <nb-card-body class="ml-2">
+        <p>Lista de Clientes {{selectedFilted.unity}}</p>
         <div class="row">
-          <div class="col-md-12 col-12">
+          <div class="col-md-12 col-12" *ngFor="let item of customers">
             <nb-list-item class="list-group-item-action align-content-center p-0" (click)="advanceStep()">
-              <span class="m-2 font-list ">Azul</span>
-            </nb-list-item>
-          </div>
-          <div class="col-md-12 col-12">
-            <nb-list-item class="list-group-item-action align-content-center p-0" (click)="advanceStep()">
-              <span class="m-2 font-list ">Cielo</span>
-            </nb-list-item>
-          </div>
-          <div class="col-md-12 col-12">
-            <nb-list-item class="list-group-item-action align-content-center p-0" (click)="advanceStep()">
-              <span class="m-2 font-list ">Banco Fibra</span>
-            </nb-list-item>
-          </div>
-          <div class="col-md-12 col-12">
-            <nb-list-item class="list-group-item-action align-content-center p-0" (click)="advanceStep()">
-              <span class="m-2 font-list m">Banco Original</span>
+              <span class="m-2 font-list ">{{item.clienteNome}}</span>
             </nb-list-item>
           </div>
         </div>
@@ -1186,41 +1171,3 @@
   </div>
 </div>
 
-<!-- <div class="row">
-  <div class="col-xxl-5">
-    <div class="row">
-      <div class="col-md-6">
-        <ngx-profit-card></ngx-profit-card>
-      </div>
-      <div class="col-md-6">
-        <ngx-earning-card></ngx-earning-card>
-      </div>
-    </div>
-
-    <ngx-traffic-reveal-card></ngx-traffic-reveal-card>
-  </div>
-
-  <div class="col-xxl-7">
-    <ngx-ecommerce-charts></ngx-ecommerce-charts>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-xxl-9">
-    <ngx-country-orders></ngx-country-orders>
-  </div>
-
-  <div class="col-xxl-3">
-    <ngx-progress-section></ngx-progress-section>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-xxl-9">
-    <ngx-ecommerce-visitors-analytics></ngx-ecommerce-visitors-analytics>
-  </div>
-
-  <div class="col-xxl-3">
-    <ngx-user-activity></ngx-user-activity>
-  </div>
-</div> -->
