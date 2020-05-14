@@ -8,6 +8,7 @@ import {
   NbGlobalPhysicalPosition,
 } from "@nebular/theme";
 import { config } from "rxjs";
+import { User } from '../user-model';
 
 @Component({
   selector: "app-login",
@@ -16,6 +17,7 @@ import { config } from "rxjs";
 })
 export class LoginComponent implements OnInit {
   formlogin;
+  user : User;
   private index: number = 0;
   constructor(
     private fb: FormBuilder,
@@ -31,16 +33,19 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   login() {
-    console.log(this.formlogin.valid);
-    this.service.login(this.formlogin.value.email, this.formlogin.value.password).subscribe(data => {
-      this.service.user = data;
-      if (data.erro === 0) {
-        this.route.navigate(["/"]);
-      }
-     
-    }, error => {
+    this.service
+      .login(this.formlogin.value.email, this.formlogin.value.password)
+      .subscribe(
+        (data) => {
+          this.user = data;
 
-    })
+          localStorage.setItem('item', JSON.stringify(this.user));
+          if (data.erro === 0) {
+            this.route.navigate(["/"]);
+          }
+        },
+        (error) => {}
+      );
     // if (
     //   this.formlogin.value.email === "adyson@provider.com" &&
     //   this.formlogin.value.password === "123"

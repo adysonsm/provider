@@ -2,7 +2,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
-import { ECommerceComponent } from './e-commerce/e-commerce.component';
+import { Dashboard } from './e-commerce/dashboard.component';
+
 
 
 
@@ -12,7 +13,7 @@ const routes: Routes = [{
   children: [
     {
       path: 'dashboard',
-      component: ECommerceComponent,
+      component: Dashboard,
     },
     {
       path: '',

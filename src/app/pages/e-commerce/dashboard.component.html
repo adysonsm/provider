@@ -4,9 +4,9 @@
       <nb-card-header>Selecione a Unidade Provider</nb-card-header>
       <nb-card-body>
         <div class="row" *ngIf="unity">
-          <div class="col-md-12 col-12"  *ngIf="unity[0].uf === 'RJ'">
+          <div class="col-md-12 col-12" *ngIf="unity[0].uf === 'RJ'">
             <nb-list-item class="list-group-item-action align-content-center">
-              <a (click)="getClients(19)" class="d-flex justify-content-between align-center w-100 h-100"
+              <a (click)="getClients(unity[0])" class="d-flex justify-content-between align-center w-100 h-100"
                 style="cursor: pointer;">
                 <img src="assets/images/rj.svg" class="img-fluid" style="max-width: 100px;">
                 <div class="mt-4">
@@ -15,9 +15,9 @@
               </a>
             </nb-list-item>
           </div>
-          <div class="col-md-12 col-12"  *ngIf="unity[1].uf === 'SP'">
+          <div class="col-md-12 col-12" *ngIf="unity[1].uf === 'SP'">
             <nb-list-item class="  list-group-item-action align-content-center">
-              <a (click)="getClients(25)" class="d-flex justify-content-between align-center w-100 h-100"
+              <a (click)="getClients(unity[1])" class="d-flex justify-content-between align-center w-100 h-100"
                 style="cursor: pointer;">
                 <img src="assets/images/sp.svg" class="img-fluid" style="max-width: 100px;">
                 <div class="mt-4">
@@ -55,10 +55,10 @@
 
       </nb-card-header>
       <nb-card-body class="ml-2">
-        <p>Lista de Clientes {{selectedFilted.unity}}</p>
+        <p>Lista de Clientes {{selectedFilted.name}}</p>
         <div class="row">
           <div class="col-md-12 col-12" *ngFor="let item of customers">
-            <nb-list-item class="list-group-item-action align-content-center p-0" (click)="advanceStep()">
+            <nb-list-item class="list-group-item-action align-content-center p-0" (click)="getProjects(item)">
               <span class="m-2 font-list ">{{item.clienteNome}}</span>
             </nb-list-item>
           </div>
@@ -104,11 +104,11 @@
                           <tbody>
                             <tr>
                               <th scope="row">Unidade</th>
-                              <td>São Paulo</td>
+                              <td>{{projetcs[0].uf}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Cliente</th>
-                              <td>Original</td>
+                              <td>{{projetcs[0].clienteNome}}</td>
                             </tr>
                             <tr>
                               <!-- <th scope="row">Gestor de Negócio</th>
@@ -126,25 +126,15 @@
                       <thead>
                         <tr>
                           <th scope="col">Operação</th>
-                          <th scope="col">Nome</th>
+                          <!-- <th scope="col">Nome</th> -->
                           <th scope="col">Gestor de Negócio</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr (click)="advanceStep()">
-                          <td>49129</td>
-                          <td>Liguidação de Renovação</td>
-                          <td>Claudio</td>
-                        </tr>
-                        <tr (click)="advanceStep()">
-                          <td scope="row">995582</td>
-                          <td>XYPTO</td>
-                          <td>Claudio</td>
-                        </tr>
-                        <tr (click)="advanceStep()">
-                          <td scope="row">948293</td>
-                          <td>Nova Gestão</td>
-                          <td>Claudio</td>
+                        <tr (click)="advanceStep()" *ngFor="let item of projetcs">
+                          <td>{{item.codigoProjeto}}</td>
+                          <!-- <td>Liguidação de Renovação</td> -->
+                          <td>{{item.gestorNome}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -153,9 +143,8 @@
                   <div class="col-12 d-flex justify-content-center my-2">
                     <div class="row">
                       <div class="col-12 btns-projects">
-                        <button class="btn btn-secondary mr-md-4 mr-sm-0" (click)="advanceStep(true)">Todas as
-                          Operações</button>
-                        <button class="btn btn-primary" (click)="advanceStep(7)">Todos os Recursos</button>
+                        <button class="btn btn-secondary mr-md-4 mr-sm-0" (click)="advanceStep(true)">+Operações</button>
+                        <button class="btn btn-primary" (click)="advanceStep(7)">Profissionais</button>
                       </div>
                     </div>
                   </div>
@@ -468,7 +457,7 @@
                               <td>Claudio</td>
                             </tr>
                             <tr *ngIf="!frag">
-                              <th scope="row" >Operação</th>
+                              <th scope="row">Operação</th>
                               <td>4912 - Liguidação de Renovação</td>
                             </tr>
                             <tr>
@@ -1170,4 +1159,3 @@
     </nb-card>
   </div>
 </div>
-

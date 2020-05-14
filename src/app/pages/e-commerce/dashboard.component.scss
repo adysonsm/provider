@@ -5,6 +5,7 @@ p {
   font-weight: 600;
   line-height: 1.5rem;
 }
+
 .font-list {
   color: #222b45;
   font-family: Open Sans, sans-serif;
@@ -13,41 +14,61 @@ p {
   line-height: 1.5rem;
   margin-left: 40px;
 }
+
 nb-list-item {
   cursor: pointer;
 }
+
 nb-card-header {
   display: flex;
   align-items: center;
 }
+
 .page-active {
   font-weight: bold;
 }
-tbody tr {
-  cursor: pointer;
+
+tbody {
+  tr {
+    cursor: pointer;
+  }
 }
-.table-rec .table th,
-.table-rec .table td {
-  padding: 0.4rem;
+
+.table-rec {
+  .table th,
+  .table td {
+    padding: 0.4rem;
+  }
 }
+
 .breadcrumb {
   background-color: white;
 }
+
 .btns {
   display: flex;
   justify-content: space-between;
 }
-@media screen and (max-device-width: 480px) {
-  .btns-projects .btn-primary {
-    margin-top: 20px;
+
+.btns-projects {
+  @media screen and (max-device-width: 480px) {
+    .btn-primary {
+      // margin-top: 20px;
+    }
   }
 }
-@media screen and (max-device-width: 480px) {
-  nb-select {
+
+nb-select {
+  @media screen and (max-device-width: 480px) {
     width: 100%;
     margin-top: 15px;
+    
   }
 }
+
 nb-card-body {
   padding: 0;
 }
+
+
+

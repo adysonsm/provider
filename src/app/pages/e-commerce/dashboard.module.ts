@@ -12,12 +12,12 @@ import {
 
 
 import { ThemeModule } from '../../@theme/theme.module';
-import { ECommerceComponent } from './e-commerce.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { ModalConfirmationComponent } from './modal-confirmation/modal-confirmation.component';
 import { FormModalComponent } from './form-modal/form-modal.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { DashboardService } from './dashboard.service';
+import { Dashboard } from './dashboard.component';
 
 @NgModule({
   imports: [
@@ -35,7 +35,7 @@ import { DashboardService } from './dashboard.service';
   
   ],
   declarations: [
-    ECommerceComponent,
+    Dashboard,
     ModalConfirmationComponent,
     FormModalComponent,
   ],
@@ -43,4 +43,4 @@ import { DashboardService } from './dashboard.service';
     DashboardService
   ],
 })
-export class ECommerceModule { }
+export class DashboardModule { }

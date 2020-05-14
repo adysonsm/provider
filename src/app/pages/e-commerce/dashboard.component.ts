@@ -4,14 +4,16 @@ import { ModalConfirmationComponent } from "./modal-confirmation/modal-confirmat
 import { FormModalComponent } from "./form-modal/form-modal.component";
 import { LoginService } from "src/app/security/login/login.service";
 import { DashboardService } from "./dashboard.service";
+import { Clientes } from "./model/cliente.model";
 
 @Component({
   selector: "ngx-ecommerce",
-  templateUrl: "./e-commerce.component.html",
-  styleUrls: ["./e-commerce.component.scss"],
+  templateUrl: "./dashboard.component.html",
+  styleUrls: ["./dashboard.component.scss"],
+
   preserveWhitespaces: true,
 })
-export class ECommerceComponent implements OnInit {
+export class Dashboard implements OnInit {
   demo_hint = `
   interface initOpts {{'{'}}
   devicePixelRatio?: number,
@@ -222,10 +224,11 @@ export class ECommerceComponent implements OnInit {
 
   public unity: any;
   public;
-  customers = [];
+  customers: Clientes;
+  projetcs;
 
-  selectedFilted = { unity: ""}
-  
+  selectedFilted = { name: "" };
+
 
   constructor(
     private dialogService: NbDialogService,
@@ -239,12 +242,21 @@ export class ECommerceComponent implements OnInit {
     });
   }
 
-  getClients(unity: string) {
-    this.service.getClientes(unity).subscribe((data) => {
+  getClients(unity) {
+    this.service.getClientes(unity.fkBaseProjeto).subscribe((data) => {
       this.customers = data;
-      this.selectedFilted.unity = unity
+      this.selectedFilted.name = unity.uf;
       this.step++;
     });
+  }
+
+  getProjects(item) {
+    this.service
+      .getProjects("202002", item.fkBaseProjeto, item.idCliente)
+      .subscribe((data) => {
+        this.projetcs = data
+        this.step++;
+      });
   }
 
   advanceStep(hideen?: any) {

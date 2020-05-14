@@ -3,7 +3,7 @@ import { NbMenuModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
-import { ECommerceModule } from './e-commerce/e-commerce.module';
+import { DashboardModule } from './e-commerce/dashboard.module';
 import { PagesRoutingModule } from './pages-routing.module';
 
 @NgModule({
@@ -11,7 +11,7 @@ import { PagesRoutingModule } from './pages-routing.module';
     PagesRoutingModule,
     ThemeModule,
     NbMenuModule,
-    ECommerceModule,
+    DashboardModule
   ],
   declarations: [
     PagesComponent,

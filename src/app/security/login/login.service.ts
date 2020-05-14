@@ -12,8 +12,12 @@ export class LoginService {
     user : User;
     constructor(private http:HttpClient, private router: Router) {}
 
+
     isLoggedIn(): boolean {
-        return this.user !== undefined
+        const token = localStorage.getItem('item');
+        this.user =  JSON.parse(token); 
+        console.log(this.user)
+        return token ? true : false
     }
     login(email:string, password:string): Observable<any> {
         return this.http.get(environment.api + `biprojetos/v1/users/login/${email}/${password}`)
@@ -24,7 +28,7 @@ export class LoginService {
     }
 
     logout() {
-        this.user = undefined;
+        localStorage.removeItem('item')
         this.handleLogin();
     }
 
