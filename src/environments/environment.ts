@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  api: 'http://localhost:5000/'
+  api: 'https://biprojetos-provider.azurewebsites.net/'
 };
 
 /*
