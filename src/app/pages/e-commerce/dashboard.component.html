@@ -3,30 +3,50 @@
     <nb-card accent="info">
       <nb-card-header>Selecione a Unidade Provider</nb-card-header>
       <nb-card-body>
-        <div class="row" *ngIf="unity">
-          <div class="col-md-12 col-12" *ngIf="unity[0].uf === 'RJ'">
+        <div *ngFor="let item of unity">
+          <div class="col-md-12 col-12">
             <nb-list-item class="list-group-item-action align-content-center">
-              <a (click)="getClients(unity[0])" class="d-flex justify-content-between align-center w-100 h-100"
+              <a (click)="getClients(item)" class="d-flex justify-content-between align-center w-100 h-100"
                 style="cursor: pointer;">
-                <img src="assets/images/rj.svg" class="img-fluid" style="max-width: 100px;">
+                <img [src]="item.uf === 'RJ'? 'assets/images/rj.svg' : 'assets/images/sp.svg'" class="img-fluid"
+                  style="max-width: 100px;">
                 <div class="mt-4">
-                  <p>Rio de Janeiro</p>
+                  <p>{{item.uf === 'RJ' ?  'Rio de Janiero' : 'São Paulo'}}</p>
                 </div>
               </a>
             </nb-list-item>
           </div>
-          <div class="col-md-12 col-12" *ngIf="unity[1].uf === 'SP'">
-            <nb-list-item class="  list-group-item-action align-content-center">
-              <a (click)="getClients(unity[1])" class="d-flex justify-content-between align-center w-100 h-100"
-                style="cursor: pointer;">
-                <img src="assets/images/sp.svg" class="img-fluid" style="max-width: 100px;">
-                <div class="mt-4">
-                  <p>São Paulo</p>
-                </div>
-              </a>
-            </nb-list-item>
-          </div>
+
         </div>
+        <!-- <div class="row" *ngIf="unity[0].uf">
+          <div *ngIf="unity[0].uf">
+            <div class="col-md-12 col-12" *ngIf="unity[0].uf === 'RJ'">
+              <nb-list-item class="list-group-item-action align-content-center">
+                <a (click)="getClients(unity[0])" class="d-flex justify-content-between align-center w-100 h-100"
+                  style="cursor: pointer;">
+                  <img src="assets/images/rj.svg" class="img-fluid" style="max-width: 100px;">
+                  <div class="mt-4">
+                    <p>Rio de Janeiro</p>
+                  </div>
+                </a>
+              </nb-list-item>
+            </div>
+          </div>
+          <div *ngIf="unity[1].uf">
+            <div class="col-md-12 col-12" *ngIf="unity[1].uf === 'SP'">
+              <nb-list-item class="  list-group-item-action align-content-center">
+                <a (click)="getClients(unity[1])" class="d-flex justify-content-between align-center w-100 h-100"
+                  style="cursor: pointer;">
+                  <img src="assets/images/sp.svg" class="img-fluid" style="max-width: 100px;">
+                  <div class="mt-4">
+                    <p>São Paulo</p>
+                  </div>
+                </a>
+              </nb-list-item>
+            </div>
+
+          </div>
+        </div> -->
       </nb-card-body>
     </nb-card>
   </div>
@@ -34,7 +54,7 @@
 
 <div class="row" *ngIf="step === 1">
   <div class="col-xxl-12">
-    <nb-card>
+    <nb-card class="p-2">
       <nb-card-header>
         <a (click)="backStep()">
           <nb-icon icon="arrow-back-outline" status="primary" [options]="{ animation: { type: 'zoom' } }"
@@ -54,12 +74,12 @@
         </div>
 
       </nb-card-header>
-      <nb-card-body class="ml-2">
-        <p>Lista de Clientes {{selectedFilted.name}}</p>
+      <nb-card-body class="">
+        <p>Clientes {{selectedFilted.name}} ({{customers.length}})</p>
         <div class="row">
           <div class="col-md-12 col-12" *ngFor="let item of customers">
             <nb-list-item class="list-group-item-action align-content-center p-0" (click)="getProjects(item)">
-              <span class="m-2 font-list ">{{item.clienteNome}}</span>
+              <span class="m-2 font-list ">{{item.clienteNomeCurto}}</span>
             </nb-list-item>
           </div>
         </div>
@@ -84,7 +104,7 @@
                 <ol class="breadcrumb m-0">
                   <li class="breadcrumb-item">Unidades</li>
                   <li class="breadcrumb-item">Clientes</li>
-                  <li class="breadcrumb-item page-active">Projetos</li>
+                  <li class="breadcrumb-item page-active">Operação</li>
                 </ol>
               </nav>
             </div>
@@ -95,11 +115,11 @@
         <div class="row">
           <div class="col-12">
             <nb-tabset>
-              <nb-tab tabTitle="Projetos">
+              <nb-tab tabTitle="Operação">
                 <div class="row mt-3 my-2">
                   <div class="col-12">
                     <div class="row my-2">
-                      <div class="col-sm-12 col-md-3">
+                      <div class="col-sm-6 col-md-3">
                         <table class="table table-sm table-borderless">
                           <tbody>
                             <tr>
@@ -108,7 +128,7 @@
                             </tr>
                             <tr>
                               <th scope="row">Cliente</th>
-                              <td>{{projetcs[0].clienteNome}}</td>
+                              <td>{{projetcs[0].clienteNomeCurto}}</td>
                             </tr>
                             <tr>
                               <!-- <th scope="row">Gestor de Negócio</th>
@@ -122,19 +142,22 @@
                         </table>
                       </div>
                     </div>
-                    <table class="table table-hover table-responsive-sm">
+                    <table class="table table-hover">
                       <thead>
                         <tr>
                           <th scope="col">Operação</th>
-                          <!-- <th scope="col">Nome</th> -->
-                          <th scope="col">Gestor de Negócio</th>
+                          <!-- <th scope="col">Nome</th>
+                          <th scope="col">Gestor de Negócio</th> -->
                         </tr>
                       </thead>
                       <tbody>
-                        <tr (click)="advanceStep()" *ngFor="let item of projetcs">
-                          <td>{{item.codigoProjeto}}</td>
-                          <!-- <td>Liguidação de Renovação</td> -->
-                          <td>{{item.gestorNome}}</td>
+                        <tr (click)="getProjectPeriod(item)" *ngFor="let item of projetcs">
+                          <td>{{item.numeroProjeto}}
+                            <br>
+                            {{item.projetoNome}}
+                            <br>
+                            <span class="gestor-name">{{item.gestorNome}}</span>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -143,59 +166,20 @@
                   <div class="col-12 d-flex justify-content-center my-2">
                     <div class="row">
                       <div class="col-12 btns-projects">
-                        <button class="btn btn-secondary mr-md-4 mr-sm-0" (click)="advanceStep(true)">+Operações</button>
-                        <button class="btn btn-primary" (click)="advanceStep(7)">Profissionais</button>
+                        <button class="btn btn-secondary mr-md-4 mr-sm-0" (click)="getAllProjects()">
+                          <nb-icon icon="plus-outline" status="control"></nb-icon>
+                          Operações
+                        </button>
+                        <button class="btn btn-primary" (click)="getProssionaisAll()">
+                          <nb-icon icon="people-outline" status="control"></nb-icon> Profissionais
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
               </nb-tab>
-              <nb-tab tabTitle="Cliente">
-                <div class="row">
-                  <div class="col-12">
-                    <a (click)="open3()" class="ml-2">
-                      <nb-icon status="primary" icon="person-add-outline" [options]="{ animation: { type: 'zoom' } }"
-                        style="font-size: 30px;"></nb-icon>
-                    </a>
-
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">Nome</th>
-                          <th scope="col">Email</th>
-                          <th scope="col"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Adyson da Silva</td>
-                          <td>adyson.sm@gmail.com</td>
-                          <td> <a (click)="open()">
-                              <nb-icon icon="trash-2-outline" status="primary"
-                                [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a> <a (click)="open3()">
-                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a></td>
-                        </tr>
-                        <tr>
-                          <td scope="row">luiz</td>
-                          <td>luiz@gmail.com</td>
-                          <td> <a (click)="open()">
-                              <nb-icon icon="trash-2-outline" status="primary"
-                                [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a> <a (click)="open3()">
-                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
+              <nb-tab tabTitle="Cliente" *ngIf="typeOfAcesso != 'CL'">
+                <app-manager-client [client]="selectedClient"></app-manager-client>
               </nb-tab>
             </nb-tabset>
           </div>
@@ -223,7 +207,7 @@
                 <ol class="breadcrumb m-0">
                   <li class="breadcrumb-item">Unidades</li>
                   <li class="breadcrumb-item">Clientes</li>
-                  <li class="breadcrumb-item">Projetos</li>
+                  <li class="breadcrumb-item">Operação</li>
                   <li class="breadcrumb-item page-active">Períodos</li>
                 </ol>
               </nav>
@@ -246,19 +230,19 @@
                           <tbody>
                             <tr>
                               <th scope="row">Unidade</th>
-                              <td>São Paulo</td>
+                              <td>{{itemSelected.uf}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Cliente</th>
-                              <td>Original</td>
+                              <td>{{itemSelected.clienteNomeCurto}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Gestor de Negócio</th>
-                              <td>Claudio</td>
+                              <td>{{gestorNome}}</td>
                             </tr>
                             <tr *ngIf="!frag">
                               <th scope="row">Operação</th>
-                              <td>4912 - Liguidação de Renovação</td>
+                              <td>{{itemSelected.projetoNome}}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -267,7 +251,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-12">
+                  <div class="col-sm-4 col-12 my-1 ml-2">
                     <div>
                       <label for="">Selecione o período que deseja visualizar:</label>
                     </div>
@@ -276,12 +260,13 @@
                       <nb-option value="0">1°</nb-option>
                       <nb-option value="1">2°</nb-option>
                     </nb-select> -->
-                    <nb-select placeholder="ano" class="ano">
-                      <nb-option value=""></nb-option>
-                      <nb-option value="0">2018</nb-option>
-                      <nb-option value="1">2019</nb-option>
-                      <nb-option value="1">2020</nb-option>
-                    </nb-select>
+
+                    <select class="form-control w-50" (change)="selectYear($event)">
+                      <option value="2020">2020</option>
+                      <option value="2018">2018</option>
+                      <option value="2019">2019</option>
+                      <!-- <option value="2021">2020</option> -->
+                    </select>
                   </div>
                 </div>
                 <div class="row mt-3">
@@ -293,106 +278,49 @@
 
                           <th scope="col">Períodos</th>
                           <th scope="col" class="text-center">Total de Recursos</th>
-                          <th scope="col">TH</th>
-                          <th scope="col">THN</th>
-                          <th scope="col">THE</th>
-                          <th scope="col">THSA</th>
+                          <th scope="col" class="text-center">TH</th>
+                          <th scope="col" class="text-center">THN</th>
+                          <th scope="col" class="text-center">THE</th>
 
                         </tr>
                       </thead>
                       <tbody>
-                        <tr (click)="advanceStep()">
-                          <th scope="row">ABR/2020</th>
-                          <td class="text-center">70</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                        </tr>
-                        <tr (click)="advanceStep()">
-                          <th scope="row">MAR/2020</th>
-                          <td class="text-center">70</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                        </tr>
-                        <tr (click)="advanceStep()">
-                          <th scope="row">FEV/2020</th>
-                          <td class="text-center">70</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
+                        <tr (click)="getProfPerProj(item)" *ngFor="let item of projectPeriod">
+                          <th scope="row">{{item.data}}</th>
+                          <td class="text-center">{{item.totalProfissionais}}</td>
+                          <td class="text-center">{{item.th}}</td>
+                          <td class="text-center">{{item.hn}}</td>
+                          <td class="text-center">{{item.he}}</td>
                         </tr>
                       </tbody>
                     </table>
-
                   </div>
 
-                  <div class="col-12 mt-4">
+                  <div class="col-12 mt-4" *ngIf="projectPeriod">
                     <div class="row">
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
                         <span class="font-list">Produtividade por Período</span>
-                        <echarts [initOpts]="initOpts" [options]="options"></echarts>
+                        <echarts [initOpts]="initOpts" [options]="graficoProdutividaPeriodo"></echarts>
                       </div>
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
                         <p>Horas Úteis & Horas Trabalhadas no Período</p>
-                        <echarts [initOpts]="initOpts" [options]=" hoursWorks"></echarts>
+                        <echarts [initOpts]="initOpts" [options]="graficosTotaldehoras"></echarts>
                       </div>
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
                         <p>N° de Profissionais Por Período</p>
-                        <echarts [initOpts]="initOpts" [options]="collaborators"></echarts>
+                        <echarts [initOpts]="initOpts" [options]="graficoNumeroPeriod"></echarts>
                       </div>
                     </div>
                   </div>
                 </div>
-              </nb-tab>
-              <nb-tab tabTitle="Cliente">
-                <div class="row">
+                <div class="row text-center my-4" *ngIf="!projectPeriod">
                   <div class="col-12">
-                    <a (click)="open3()" class="ml-2">
-                      <nb-icon status="primary" icon="person-add-outline" [options]="{ animation: { type: 'zoom' } }"
-                        style="font-size: 30px;"></nb-icon>
-                    </a>
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">Nome</th>
-                          <th scope="col">Email</th>
-                          <th scope="col"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Adyson da Silva</td>
-                          <td>adyson.sm@gmail.com</td>
-                          <td> <a (click)="open()">
-                              <nb-icon icon="trash-2-outline" status="primary"
-                                [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a> <a (click)="open3()">
-                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a></td>
-                        </tr>
-                        <tr>
-                          <td scope="row">luiz</td>
-                          <td>luiz@gmail.com</td>
-                          <td> <a (click)="open()">
-                              <nb-icon icon="trash-2-outline" status="primary"
-                                [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a> <a (click)="open3()">
-                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a></td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <h6>Não há registros</h6>
                   </div>
                 </div>
-
+              </nb-tab>
+              <nb-tab tabTitle="Cliente" *ngIf="typeOfAcesso != 'CL'">
+                <app-manager-client [client]="selectedClient"></app-manager-client>
               </nb-tab>
             </nb-tabset>
           </div>
@@ -422,7 +350,7 @@
                 <ol class="breadcrumb m-0">
                   <li class="breadcrumb-item">Unidades</li>
                   <li class="breadcrumb-item">Clientes</li>
-                  <li class="breadcrumb-item">Projetos</li>
+                  <li class="breadcrumb-item">Operação</li>
                   <li class="breadcrumb-item ">Período</li>
                   <li class="breadcrumb-item page-active">Alocação</li>
                 </ol>
@@ -446,25 +374,36 @@
                           <tbody>
                             <tr>
                               <th scope="row">Unidade</th>
-                              <td>São Paulo</td>
+                              <td>{{itemSelected.uf}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Cliente</th>
-                              <td>Original</td>
+                              <td>{{itemSelected.clienteNomeCurto}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Gestor de Negócio</th>
-                              <td>Claudio</td>
+                              <td>{{gestorNome}}</td>
                             </tr>
                             <tr *ngIf="!frag">
                               <th scope="row">Operação</th>
-                              <td>4912 - Liguidação de Renovação</td>
+                              <td>{{itemSelected.projetoNome}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Período</th>
-                              <td>Abril/2020</td>
+                              <td>{{itemSelected.data}}</td>
                             </tr>
-
+                            <tr>
+                              <th scope="row">Horas normais</th>
+                              <td>{{itemSelected.hn}}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Horas extras</th>
+                              <td>{{itemSelected.he}}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Total de Horas</th>
+                              <td>{{itemSelected.th}}</td>
+                            </tr>
                           </tbody>
                         </table>
                       </div>
@@ -476,44 +415,18 @@
                         <tr>
                           <th scope="col" *ngIf="frag">Operação</th>
                           <th scope="col">Profissional</th>
-                          <th scope="col">TH</th>
-                          <th scope="col">THN</th>
-                          <th scope="col">THE</th>
-                          <th scope="col">THSA</th>
+                          <th scope="col">Normal</th>
+                          <th scope="col">Extra</th>
+                          <th scope="col">Total</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr (click)="advanceStep()">
+                        <tr (click)="getTimesheet(item, 'x')" *ngFor="let item of projectPeriodMonth">
                           <th scope="row" *ngIf="frag">4289 - Liquidação de Renovação</th>
-                          <th scope="row">Adyson</th>
-                          <td>90</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                        </tr>
-                        <tr (click)="advanceStep()">
-                          <th scope="row" *ngIf="frag">4289 - Liquidação de Renovação</th>
-                          <th scope="row">LH</th>
-                          <td>30</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                        </tr>
-                        <tr (click)="advanceStep()">
-                          <th scope="row" *ngIf="frag"> 4289 - Liquidação de Renovação</th>
-                          <th scope="row">Matheus</th>
-                          <td>80</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                        </tr>
-                        <tr (click)="advanceStep()">
-                          <th scope="row" *ngIf="frag"> 4285 - Liquidação de Renovação</th>
-                          <th scope="row">Adyson</th>
-                          <td>30</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
+                          <th scope="row">{{item.membroNome}}</th>
+                          <td>{{item.hn}}</td>
+                          <td>{{item.he}}</td>
+                          <td>{{item.th}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -523,15 +436,15 @@
                     <div class="row">
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
                         <span class="font-list">Produtividade por Período</span>
-                        <echarts [initOpts]="initOpts" [options]="month"></echarts>
+                        <echarts [initOpts]="initOpts" [options]="graficoAlocProdutivdade"></echarts>
                       </div>
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
                         <p>Horas Úteis & Horas Trabalhadas no Período</p>
-                        <echarts [initOpts]="initOpts" [options]=" hoursWorks"></echarts>
+                        <echarts [initOpts]="initOpts" [options]="graficoAlocHoratrabalhadas"></echarts>
                       </div>
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
                         <p>N° de Profissionais Por Período</p>
-                        <echarts [initOpts]="initOpts" [options]="collaboratorsMonth"></echarts>
+                        <echarts [initOpts]="initOpts" [options]="graficoAlocNumeroPeriod"></echarts>
                       </div>
                     </div>
                   </div>
@@ -539,51 +452,8 @@
 
 
               </nb-tab>
-              <nb-tab tabTitle="Cliente">
-                <div class="row">
-                  <div class="col-12">
-                    <a (click)="open3()" class="ml-2">
-                      <nb-icon status="primary" icon="person-add-outline" [options]="{ animation: { type: 'zoom' } }"
-                        style="font-size: 30px;"></nb-icon>
-                    </a>
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">Nome</th>
-                          <th scope="col">Email</th>
-                          <th scope="col"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Adyson da Silva</td>
-                          <td>adyson.sm@gmail.com</td>
-                          <td> <a (click)="open()">
-                              <nb-icon icon="trash-2-outline" status="primary"
-                                [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a> <a (click)="open3()">
-                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a></td>
-                        </tr>
-                        <tr>
-                          <td scope="row">luiz</td>
-                          <td>luiz@gmail.com</td>
-                          <td> <a (click)="open()">
-                              <nb-icon icon="trash-2-outline" status="primary"
-                                [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a> <a (click)="open3()">
-                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
+              <nb-tab tabTitle="Cliente" *ngIf="typeOfAcesso != 'CL'">
+                <app-manager-client [client]="selectedClient"></app-manager-client>
               </nb-tab>
             </nb-tabset>
           </div>
@@ -598,11 +468,11 @@
   </div>
 </div>
 
-<div class="row" *ngIf="step === 5 || step === 6 ">
+<div class="row" *ngIf="step === 5 || step === 6 || step == 11">
   <div class="col-xxl-12">
     <nb-card>
       <nb-card-header>
-        <a (click)="backStep()">
+        <a (click)="backTimeSheet()">
           <nb-icon icon="arrow-back-outline" status="primary" [options]="{ animation: { type: 'zoom' } }"
             style="font-size: 40px;"></nb-icon>
         </a>
@@ -613,7 +483,7 @@
                 <ol class="breadcrumb m-0">
                   <li class="breadcrumb-item">Unidades</li>
                   <li class="breadcrumb-item">Clientes</li>
-                  <li class="breadcrumb-item">Projetos</li>
+                  <li class="breadcrumb-item">Operações</li>
                   <li class="breadcrumb-item ">{{step === 5 ? "Períodos" : "Recursos"}} </li>
                   <li class="breadcrumb-item ">Alocação</li>
                   <li class="breadcrumb-item page-active">Timesheet</li>
@@ -637,32 +507,37 @@
                         <table class="table table-sm table-borderless">
                           <tbody>
                             <tr>
+                            <tr>
                               <th scope="row">Unidade</th>
-                              <td>São Paulo</td>
+                              <td>{{itemSelected.uf}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Cliente</th>
-                              <td>Original</td>
+                              <td>{{itemSelected.clienteNomeCurto}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Gestor de Negócio</th>
-                              <td>Claudio</td>
+                              <td>{{timesheet[0].gestorNome}}</td>
                             </tr>
-                            <tr>
+                            <tr *ngIf="!frag">
                               <th scope="row">Operação</th>
-                              <td>4912 - Liguidação de Renovação</td>
+                              <td>{{timesheet[0].projetoNome}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Período</th>
-                              <td>Abril/2020</td>
+                              <td>{{timesheet[0].mesAno}}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Total de Horas normais</th>
-                              <td>10h</td>
+                              <th scope="row">Horas normais</th>
+                              <td>{{selectPeridoAloc.hn}}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Total de horas extras</th>
-                              <td>10h</td>
+                              <th scope="row">Horas extras</th>
+                              <td>{{selectPeridoAloc.he}}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Totais de horas</th>
+                              <td>{{selectPeridoAloc.th}}</td>
                             </tr>
 
                           </tbody>
@@ -678,18 +553,19 @@
                       <hr>
                       <thead>
                         <tr>
-                          <th scope="col">Recurso</th>
-                          <th scope="col">Cargo</th>
-                          <th scope="col">Email</th>
-                          <th scope="col">Admissão</th>
+                          <th scope="col">Profissonal</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <th scope="row">Adyson da Silva</th>
-                          <td>Consulto</td>
-                          <td>adyson.moreira@provider-it.com.br</td>
-                          <td>01/02/2020</td>
+                          <td scope="row">{{timesheet[0].profissionalNome}}
+                            <br>
+                            {{timesheet[0].profissionalCargo}}
+                            <br>
+                            {{timesheet[0].profissionalEmail}}
+                            <br>
+                            <!-- {{timesheet[0].profissionalDtAdmissao}} -->
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -700,38 +576,22 @@
                           <!-- <th scope="col" class="text-center">HI</th>
                           <th scope="col" class="text-center">HT</th>
                           <th scope="col" class="text-center">I</th> -->
+                          <th scope="col" class="text-center">Normal</th>
+                          <th scope="col" class="text-center">Extra</th>
                           <th scope="col" class="text-center">Total</th>
-                          <th scope="col" class="text-center">Tipo</th>
                           <th scope="col">Descrição</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <th scope="row">01/MAR</th>
+                        <tr *ngFor="let item of timesheet">
+                          <th scope="row">{{item.dataTs}}</th>
                           <!-- <td class="text-center">09:00</td>
                           <td class="text-center">18:00</td>
                           <td class="text-center">01:00</td> -->
-                          <td class="text-center">08:00</td>
-                          <td class="text-center">HN</td>
-                          <td>Capacitação feita, aprendizado em computação avançada</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">02/MAR</th>
-                          <!-- <td class="text-center">09:00</td>
-                          <td class="text-center">18:00</td>
-                          <td class="text-center">01:00</td> -->
-                          <td class="text-center">08:00</td>
-                          <td class="text-center">HN</td>
-                          <td>Capacitação feita, aprendizado em computação avançada</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">03/MAR</th>
-                          <!-- <td class="text-center">09:00</td>
-                          <td class="text-center">18:00</td>
-                          <td class="text-center">01:00</td> -->
-                          <td class="text-center">08:00</td>
-                          <td class="text-center">HN</td>
-                          <td>Capacitação feita, aprendizado em computação avançada</td>
+                          <td class="text-center">{{item.hnTotal}}</td>
+                          <td class="text-center">{{item.heTotal}}</td>
+                          <td class="text-center">{{item.hrTotal}}</td>
+                          <td>{{item.descricao}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -741,50 +601,8 @@
 
 
               </nb-tab>
-              <nb-tab tabTitle="Cliente">
-                <div class="row">
-                  <div class="col-12">
-                    <a (click)="open3()" class="ml-2">
-                      <nb-icon status="primary" icon="person-add-outline" [options]="{ animation: { type: 'zoom' } }"
-                        style="font-size: 30px;"></nb-icon>
-                    </a>
-                    <table class="table table-responsive-sm">
-                      <thead>
-                        <tr>
-                          <th scope="col">Nome</th>
-                          <th scope="col">Email</th>
-                          <th scope="col"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Adyson da Silva</td>
-                          <td>adyson.sm@gmail.com</td>
-                          <td> <a (click)="open()">
-                              <nb-icon icon="trash-2-outline" status="primary"
-                                [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a> <a (click)="open3()">
-                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a></td>
-                        </tr>
-                        <tr>
-                          <td scope="row">luiz</td>
-                          <td>luiz@gmail.com</td>
-                          <td> <a (click)="open()">
-                              <nb-icon icon="trash-2-outline" status="primary"
-                                [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a> <a (click)="open3()">
-                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+              <nb-tab tabTitle="Cliente" *ngIf="typeOfAcesso != 'CL'">
+                <app-manager-client [client]="selectedClient"></app-manager-client>
               </nb-tab>
             </nb-tabset>
           </div>
@@ -814,7 +632,7 @@
                 <ol class="breadcrumb m-0">
                   <li class="breadcrumb-item">Unidades</li>
                   <li class="breadcrumb-item">Clientes</li>
-                  <li class="breadcrumb-item">Projetos</li>
+                  <li class="breadcrumb-item">Operação</li>
                   <li class="breadcrumb-item page-active">Recursos</li>
                 </ol>
               </nav>
@@ -832,20 +650,20 @@
                 <div class="row my-2">
                   <div class="col-12">
                     <div class="row my-2">
-                      <div class="col-sm-12 col-md-2">
+                      <div class="col-sm-12 col-md-4">
                         <table class="table table-sm table-borderless">
                           <tbody>
                             <tr>
                               <th scope="row">Unidade</th>
-                              <td>São Paulo</td>
+                              <td>{{projetcs[0].uf}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Cliente</th>
-                              <td>Original</td>
+                              <td>{{projetcs[0].clienteNomeCurto}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Gestor de Negócio</th>
-                              <td>Claudio</td>
+                              <td>{{projetcs[0].gestorNome}}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -869,22 +687,8 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr (click)="advanceStep(8)">
-                          <td class="">Adyson da Silva Moreira</td>
-                          <!-- <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td> -->
-                        </tr>
-                        <tr (click)="advanceStep(8)">
-                          <td>LH</td>
-                          <!-- <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td> -->
-                        </tr>
-                        <tr (click)="advanceStep(8)">
-                          <td>Bahia</td>
+                        <tr (click)="getProssionalClientePerido(item)" *ngFor="let item of listaProfissionais">
+                          <td class="">{{item.profissionalNome}}</td>
                           <!-- <td>1000</td>
                           <td>1000</td>
                           <td>1000</td>
@@ -896,50 +700,7 @@
                 </div>
               </nb-tab>
               <nb-tab tabTitle="Cliente">
-                <div class="row">
-                  <div class="col-12">
-                    <a (click)="open3()" class="ml-2">
-                      <nb-icon status="primary" icon="person-add-outline" [options]="{ animation: { type: 'zoom' } }"
-                        style="font-size: 30px;"></nb-icon>
-                    </a>
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">Nome</th>
-                          <th scope="col">Email</th>
-                          <th scope="col"></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Adyson da Silva</td>
-                          <td>adyson.sm@gmail.com</td>
-                          <td> <a (click)="open()">
-                              <nb-icon icon="trash-2-outline" status="primary"
-                                [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a> <a (click)="open3()">
-                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a></td>
-                        </tr>
-                        <tr>
-                          <td scope="row">luiz</td>
-                          <td>luiz@gmail.com</td>
-                          <td> <a (click)="open()">
-                              <nb-icon icon="trash-2-outline" status="primary"
-                                [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a> <a (click)="open3()">
-                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
+                <app-manager-client [client]="selectedClient"></app-manager-client>
               </nb-tab>
             </nb-tabset>
           </div>
@@ -969,7 +730,7 @@
                 <ol class="breadcrumb m-0">
                   <li class="breadcrumb-item">Unidades</li>
                   <li class="breadcrumb-item">Clientes</li>
-                  <li class="breadcrumb-item">Projeto</li>
+                  <li class="breadcrumb-item">Operação</li>
                   <li class="breadcrumb-item">Recursos</li>
                   <li class="breadcrumb-item page-active">Alocação</li>
                 </ol>
@@ -992,22 +753,22 @@
                         <table class="table table-sm table-borderless">
                           <tbody>
                             <tr>
+                            <tr>
                               <th scope="row">Unidade</th>
-                              <td>São Paulo</td>
+                              <td>{{projetcs[0].uf}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Cliente</th>
-                              <td>Original</td>
+                              <td>{{projetcs[0].clienteNomeCurto}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Gestor de Negócio</th>
-                              <td>Claudio</td>
+                              <td>{{projetcs[0].gestorNome}}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Recurso</th>
-                              <td>Adyson da Silva Moreira</td>
+                              <th scope="row">Profissional</th>
+                              <td>{{itemSelecteRecAlo.profissionalNome}}</td>
                             </tr>
-
                           </tbody>
                         </table>
                       </div>
@@ -1017,8 +778,8 @@
                 <div class="row mt-3">
                   <!-- <span >BV-WBS 4878 <br></span>Gestor de Negócio Provide: Cláudio -->
                   <div class="col-12 my-2">
-                    <div class="row my-2">
-                      <div class="col-12">
+                    <div class="row">
+                      <div class="col-sm-4 col-12 my-1 ml-2">
                         <div>
                           <label for="">Selecione o período que deseja visualizar:</label>
                         </div>
@@ -1027,12 +788,13 @@
                           <nb-option value="0">1°</nb-option>
                           <nb-option value="1">2°</nb-option>
                         </nb-select> -->
-                        <nb-select placeholder="ano" class="ano">
-                          <nb-option value=""></nb-option>
-                          <nb-option value="0">2018</nb-option>
-                          <nb-option value="1">2019</nb-option>
-                          <nb-option value="1">2020</nb-option>
-                        </nb-select>
+
+                        <select class="form-control w-50" (change)="selectYearR($event)">
+                          <option value="2018">2018</option>
+                          <option value="2019">2019</option>
+                          <option value="2020" selected>2020</option>
+                          <!-- <option value="2021">2020</option> -->
+                        </select>
                       </div>
                     </div>
                     <table class="table table-hover table-responsive-sm">
@@ -1040,57 +802,31 @@
                         <tr>
                           <th scope="col">Período</th>
                           <th scope="col">Operação</th>
-                          <th scope="col">TH</th>
-                          <th scope="col">THN</th>
-                          <th scope="col">THE</th>
-                          <th scope="col">THSA</th>
+                          <th scope="col">Extras</th>
+                          <th scope="col">Normais</th>
+                          <th scope="col">Totais de horas</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr (click)="step=6">
-                          <td>ABRI/2020</td>
-                          <td>493229</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
+                      <tbody *ngIf="listaProfissionaisPeriodo">
+                        <tr (click)="getTimesheet(item, 'all')" *ngFor="let item of listaProfissionaisPeriodo">
+                          <td>{{item.data}}</td>
+                          <td>{{item.clienteNomeCurto}}</td>
+                          <!-- <td>{{item.}}</td> -->
+                          <td>{{item.clienteNome}}</td>
+                          <td>{{item.clienteNome}}</td>
+                          <td>{{item.clienteNome}}</td>
                         </tr>
-                        <tr (click)="step=6">
-                          <td>ABRI/2020</td>
-                          <td>493221</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                        </tr>
-                        <tr (click)="step=6">
-                          <td>MAR/2020</td>
-                          <td>493221</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                        </tr>
-                        <tr (click)="step=6">
-                          <td>FEV/2020</td>
-                          <td>493229</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                          <td>1000</td>
-                        </tr>
-
                       </tbody>
                     </table>
-                    <div class="col-12 mt-4">
+                    <div class="col-12 mt-4" *ngIf="listaProfissionaisPeriodo">
                       <div class="row d-flex justify-content-center">
                         <div class="col-md-6 col-sm-12 mt-4 text-left">
                           <span class="font-list">Produtividade por Período</span>
-                          <echarts [initOpts]="initOpts" [options]="options"></echarts>
+                          <echarts [initOpts]="initOpts" [options]="graficoClientRecuso"></echarts>
                         </div>
                         <div class="col-md-6 col-sm-12 mt-4 text-left">
                           <p>Horas Úteis & Horas Trabalhadas no Período</p>
-                          <echarts [initOpts]="initOpts" [options]=" hoursWorks"></echarts>
+                          <echarts [initOpts]="initOpts" [options]="graficosTotaldehorasRecurso"></echarts>
                         </div>
                         <!-- <div class="col-md-4 col-sm-12 mt-4 text-left">
                           <p>N° de Profissionais Por Período</p>
@@ -1098,54 +834,289 @@
                         </div> -->
                       </div>
                     </div>
+                    <div class="row text-center my-4" *ngIf="!listaProfissionaisPeriodo">
+                      <div class="col-12">
+                        <h6>Não há registros</h6>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </nb-tab>
               <nb-tab tabTitle="Cliente">
-                <div class="row">
+                <app-manager-client [client]="selectedClient"></app-manager-client>
+              </nb-tab>
+            </nb-tabset>
+          </div>
+        </div>
+
+
+      </nb-card-body>
+      <nb-card-footer class="d-flex justify-content-end">
+        <!-- <button class="btn btn-secondary">Ver todas</button> -->
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>
+
+<div class="row" *ngIf="step === 9">
+  <div class="col-xxl-12">
+    <nb-card>
+      <nb-card-header>
+        <a (click)="step=2">
+          <nb-icon icon="arrow-back-outline" status="primary" [options]="{ animation: { type: 'zoom' } }"
+            style="font-size: 40px;"></nb-icon>
+        </a>
+        <div class="">
+          <div class="row text-center">
+            <div class="col-12">
+              <nav>
+                <ol class="breadcrumb m-0">
+                  <li class="breadcrumb-item">Unidades</li>
+                  <li class="breadcrumb-item">Clientes</li>
+                  <li class="breadcrumb-item">Operação</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </nb-card-header>
+
+
+      <nb-card-body>
+        <div class="row">
+          <div class="col-12">
+            <nb-tabset>
+              <nb-tab tabTitle="Operação">
+                <div class="row my-2">
                   <div class="col-12">
-                    <a (click)="open3()" class="ml-2">
-                      <nb-icon status="primary" icon="person-add-outline" [options]="{ animation: { type: 'zoom' } }"
-                        style="font-size: 30px;"></nb-icon>
-                    </a>
-                    <table class="table">
+                    <div class="row my-2">
+                      <div class="col-sm-12 col-md-5">
+                        <table class="table table-sm table-borderless">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Unidade</th>
+                              <td>{{itemSelected.uf}}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Cliente</th>
+                              <td>{{itemSelected.clienteNomeCurto}}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Gestor de Negócio</th>
+                              <td>{{gestorNome}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4 col-12 my-1 ml-2">
+                    <div>
+                      <label for="">Selecione o período que deseja visualizar:</label>
+                    </div>
+                    <!-- <nb-select placeholder="semestre" class="mr-md-2">
+                      <nb-option value=""></nb-option>
+                      <nb-option value="0">1°</nb-option>
+                      <nb-option value="1">2°</nb-option>
+                    </nb-select> -->
+
+                    <select class="form-control w-50" (change)="selectYearOperation($event)">
+                      <option value="2018">2018</option>
+                      <option value="2019">2019</option>
+                      <option value="2020" selected>2020</option>
+                      <!-- <option value="2021">2020</option> -->
+                    </select>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <!-- <span >BV-WBS 4878 <br></span>Gestor de Negócio Provide: Cláudio -->
+                  <div class="col-12">
+                    <table class="table table-hover table-responsive-sm">
                       <thead>
                         <tr>
-                          <th scope="col">Nome</th>
-                          <th scope="col">Email</th>
-                          <th scope="col"></th>
+
+                          <th scope="col">Períodos</th>
+                          
+                          <th scope="col" class="text-center">Operação</th>
+                          <th scope="col" class="text-center">Total de Recursos</th>
+                          <th scope="col" class="text-center">TH</th>
+                          <th scope="col" class="text-center">THN</th>
+                          <th scope="col" class="text-center">THE</th>
+
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Adyson da Silva</td>
-                          <td>adyson.sm@gmail.com</td>
-                          <td> <a (click)="open()">
-                              <nb-icon icon="trash-2-outline" status="primary"
-                                [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a> <a (click)="open3()">
-                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a></td>
-                        </tr>
-                        <tr>
-                          <td scope="row">luiz</td>
-                          <td>luiz@gmail.com</td>
-                          <td> <a (click)="open()">
-                              <nb-icon icon="trash-2-outline" status="primary"
-                                [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a> <a (click)="open3()">
-                              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
-                              </nb-icon>
-                            </a></td>
+                        <tr (click)="getAllprojectRecurso(item)" *ngFor="let item of projectPeriod">
+                          <th scope="row">{{item.data}}</th>
+                          <td class="text-center">{{item.projetoNome}}</td>
+                          <td class="text-center">{{item.totalProfissionais}}</td>
+                          <td class="text-center">{{item.th}}</td>
+                          <td class="text-center">{{item.hn}}</td>
+                          <td class="text-center">{{item.he}}</td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
+
+                  <div class="col-12 mt-4" *ngIf="projectPeriod">
+                    <div class="row">
+                      <div class="col-md-4 col-sm-12 mt-4 text-left">
+                        <span class="font-list">Produtividade por Período</span>
+                        <echarts [initOpts]="initOpts" [options]="graficoClienteProejtoProdPerio"></echarts>
+                      </div>
+                      <div class="col-md-4 col-sm-12 mt-4 text-left">
+                        <p>Horas Úteis & Horas Trabalhadas no Período</p>
+                        <echarts [initOpts]="initOpts" [options]="graficosTotaldehoras"></echarts>
+                      </div>
+                      <div class="col-md-4 col-sm-12 mt-4 text-left">
+                        <p>N° de Profissionais Por Período</p>
+                        <echarts [initOpts]="initOpts" [options]="graficoNumeroPeriod"></echarts>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row text-center my-4" *ngIf="!projectPeriod">
+                  <div class="col-12">
+                    <h6>Não há registros</h6>
+                  </div>
+                </div>
+              </nb-tab>
+              <nb-tab tabTitle="Cliente" *ngIf="typeOfAcesso != 'CL'">
+                <app-manager-client [client]="selectedClient"></app-manager-client>
+              </nb-tab>
+            </nb-tabset>
+          </div>
+        </div>
+
+
+      </nb-card-body>
+      <nb-card-footer class="d-flex justify-content-end">
+        <!-- <button class="btn btn-secondary">Ver todas</button> -->
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>
+
+<div class="row" *ngIf="step === 10">
+  <div class="col-xxl-12">
+    <nb-card>
+      <nb-card-header>
+        <a (click)="backStep()">
+          <nb-icon icon="arrow-back-outline" status="primary" [options]="{ animation: { type: 'zoom' } }"
+            style="font-size: 40px;"></nb-icon>
+        </a>
+        <div class="">
+          <div class="row text-center">
+            <div class="col-12">
+              <nav>
+                <ol class="breadcrumb m-0">
+                  <li class="breadcrumb-item">Unidades</li>
+                  <li class="breadcrumb-item">Clientes</li>
+                  <li class="breadcrumb-item">Operação</li>
+                  <li class="breadcrumb-item page-active">Alocação</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </nb-card-header>
+
+
+      <nb-card-body>
+        <div class="row">
+          <div class="col-12">
+            <nb-tabset>
+              <nb-tab tabTitle="Alocação">
+                <div class="row my-2">
+                  <div class="col-12">
+                    <div class="row my-2">
+                      <div class="col-sm-12 col-md-5">
+                        <table class="table table-sm table-borderless">
+                          <tbody>
+                            <tr>
+                              <th scope="row">Unidade</th>
+                              <td>{{itemSelected.uf}}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Cliente</th>
+                              <td>{{itemSelected.clienteNomeCurto}}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Gestor de Negócio</th>
+                              <td>{{gestorNome}}</td>
+                            </tr>
+                            <tr *ngIf="!frag">
+                              <th scope="row">Operação</th>
+                              <td>{{itemSelected.projetoNome}}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Período</th>
+                              <td>{{itemSelected.data}}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Horas normais</th>
+                              <td>{{itemSelected.hn}}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Horas extras</th>
+                              <td>{{itemSelected.he}}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Total de Horas</th>
+                              <td>{{itemSelected.th}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <table class="table table-hover table-responsive-sm">
+                      <thead>
+                        <tr>
+                          <th scope="col" *ngIf="frag">Operação</th>
+                          <th scope="col">Profissional</th>
+                          <th scope="col">Normal</th>
+                          <th scope="col">Extra</th>
+                          <th scope="col">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr (click)="getTimesheet(item, 'y')" *ngFor="let item of projectPeriodoRecurso">
+                          <th scope="row" *ngIf="frag">4289 - Liquidação de Renovação</th>
+                          <th scope="row">{{item.membroNome}}</th>
+                          <td>{{item.hn}}</td>
+                          <td>{{item.he}}</td>
+                          <td>{{item.th}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="col-12 mt-4">
+                    <div class="row">
+                      <div class="col-md-4 col-sm-12 mt-4 text-left">
+                        <span class="font-list">Produtividade por Período</span>
+                        <echarts [initOpts]="initOpts" [options]="graficoAlocProdutivdade"></echarts>
+                      </div>
+                      <div class="col-md-4 col-sm-12 mt-4 text-left">
+                        <p>Horas Úteis & Horas Trabalhadas no Período</p>
+                        <echarts [initOpts]="initOpts" [options]="graficoAlocHoratrabalhadas"></echarts>
+                      </div>
+                      <div class="col-md-4 col-sm-12 mt-4 text-left">
+                        <p>N° de Profissionais Por Período</p>
+                        <echarts [initOpts]="initOpts" [options]="graficoAlocNumeroPeriod"></echarts>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
+
+              </nb-tab>
+              <nb-tab tabTitle="Cliente" *ngIf="typeOfAcesso != 'CL'">
+                <app-manager-client [client]="selectedClient"></app-manager-client>
               </nb-tab>
             </nb-tabset>
           </div>

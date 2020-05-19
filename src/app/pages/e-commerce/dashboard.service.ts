@@ -11,26 +11,111 @@ export class DashboardService {
     private http: HttpClient,
     private router: Router,
     private serviceLogin: LoginService
-  ) { }
+  ) {}
 
   public idUser = this.serviceLogin.user.id;
-  
-  getUnidadesProvider(initDate: string, endDate: string): Observable<any> {
+
+  getUnidadesProvider(): Observable<any> {
     return this.http.get(
       environment.api +
-        `biprojetos/v1/unidadesprovider/poridgestor/${this.idUser}/${initDate}/${endDate}`
+        `biprojetos/v1/unidadesprovider/poridgestor/${this.idUser}`
     );
   }
 
   getClientes(unity: number): Observable<any> {
     return this.http.get(
       environment.api +
-        `biprojetos/v1/clientes/dogestor/${this.serviceLogin.user.id}/doperiodo/202002/daunidade/${unity}`
+        `/biprojetos/v1/clientes/listaresumida/dogestor/${this.idUser}/dabase/${unity}`
     );
   }
 
- getProjects(periodo: string, unidade: number, idcliente : number) {
-   return this.http.get(environment.api + 
-    `biprojetos/v1/clientes/projetos/dogestor/${this.idUser}/doperiodo/${periodo}/daunidade/${unidade}/docliente/${idcliente}` )
- }
+  getProjects(unidade: number, idcliente: number) {
+    return this.http.get(
+      environment.api +
+        `biprojetos/v1/clientes/projetos/dogestor/${this.idUser}/dabase/${unidade}/docliente/${idcliente}`
+    );
+  }
+
+  getProjectPeriod(
+    idbase: number,
+    idcliente: number,
+    idprojeto: number,
+    ano: string
+  ) {
+    return this.http.get(
+      environment.api +
+        `biprojetos/v1/clientes/projetosultimos12meses/dogestor/${this.idUser}/dabase/${idbase}/docliente/${idcliente}/doprojeto/${idprojeto}/doano/${ano}`
+    );
+  }
+
+  getProjecPeridoProfissionais(
+    periodo: number,
+    unidade: string,
+    idcliente: number,
+    idprojeto: number
+  ) {
+    return this.http.get(
+      environment.api +
+        `biprojetos/v1/profissionaisporprojeto/dousuario/${this.idUser}/doperiodo/${periodo}/daunidade/${unidade}/docliente/${idcliente}/doprojeto/${idprojeto}`
+    );
+  }
+
+  getTimeSheet(
+    periodo: number,
+    unidade: number,
+    idcliente: number,
+    idprojeto: number,
+    idprofissional: number
+  ) {
+    return this.http.get(
+      environment.api +
+        `/biprojetos/v1/timesheet/dogestor/${this.idUser}/doperiodo/${periodo}/daunidade/${unidade}/docliente/${idcliente}/doprojeto/${idprojeto}/doprofissional/${idprofissional}`
+    );
+  }
+
+  getGraficoProdutividePeriod(
+    idprojeto: number,
+    ano: number,
+    agrupadopor: string
+  ) {
+    return this.http.get(
+      environment.api +
+        `biprojetos/v1/graficos/graficoA/dogestor/${this.idUser}/doprojeto/${idprojeto}/doano/${ano}/agrupadopor/${agrupadopor}`
+    );
+  }
+  getProdutividadePorHorasUteis(idcliente: number, ano : string, agrupadopor: string) {
+    return this.http.get(
+      environment.api +
+        `biprojetos/v1/graficos/graficoB/dogestor/${this.idUser}/docliente/${idcliente}/doano/${ano}/agrupadopor/${agrupadopor}`
+    );
+  }
+  getProfissionaisPorCliente(idclinte: number) {
+    return this.http.get(
+      environment.api +
+        `biprojetos/v1/profissionaisporcliente/historico/dousuario/${idclinte}`
+    );
+
+  }
+
+  getProfissionaisPorPeriodo(idprofissional: number, idcliente:number, ano : number) {
+    return this.http.get(
+      environment.api +
+        `biprojetos/v1/profissionaisporcliente/porperiodo/dousuario/${idcliente}/doprofissional/${idprofissional}/inicio/${ano}/termino/${0}`
+    );
+
+  }
+  getGraficoRecursoCliente( idUser: number, idcliente: number ,ano: number, agrupadopor:string) {
+    return this.http.get(
+      environment.api +
+        `biprojetos/v1/graficos/graficoB/dogestor/${idUser}/docliente/${idcliente}/doano/${ano}/agrupadopor/${agrupadopor}`
+    );
+  }
+
+  getAllProjectRecurso( idUser: number, idcliente: number ,ano: number, agrupadopor:string) {
+    return this.http.get(
+      environment.api +
+        `biprojetos/v1/graficos/graficoC/dogestor/${idUser}/docliente/${idcliente}/doprofissional/${0}/doano/${ano}/agrupadopor/${agrupadopor}`
+    );
+  }
+
 }

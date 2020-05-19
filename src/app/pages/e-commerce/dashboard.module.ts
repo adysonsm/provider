@@ -18,6 +18,10 @@ import { FormModalComponent } from './form-modal/form-modal.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { DashboardService } from './dashboard.service';
 import { Dashboard } from './dashboard.component';
+import { ManagerClientComponent } from './manager-client/manager-client.component';
+import { ManagerService } from './manager-client/manager-service';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -31,16 +35,21 @@ import { Dashboard } from './dashboard.component';
     NbProgressBarModule,
     LeafletModule,
     NbListModule,
-    NgxEchartsModule
+    NgxEchartsModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ChartsModule,
   
   ],
   declarations: [
     Dashboard,
     ModalConfirmationComponent,
     FormModalComponent,
+    ManagerClientComponent,
   ],
   providers: [
-    DashboardService
+    DashboardService,
+    ManagerService
   ],
 })
 export class DashboardModule { }

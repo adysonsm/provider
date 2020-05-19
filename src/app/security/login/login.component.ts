@@ -8,7 +8,8 @@ import {
   NbGlobalPhysicalPosition,
 } from "@nebular/theme";
 import { config } from "rxjs";
-import { User } from '../user-model';
+import { User } from "../user-model";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-login",
@@ -17,13 +18,14 @@ import { User } from '../user-model';
 })
 export class LoginComponent implements OnInit {
   formlogin;
-  user : User;
+  user: User;
   private index: number = 0;
   constructor(
     private fb: FormBuilder,
     private service: LoginService,
     private route: Router,
-    private toastrService: NbToastrService
+    private toastrService: NbToastrService,
+    private toastr: ToastrService
   ) {
     this.formlogin = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
@@ -33,15 +35,23 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   login() {
+    this.service.logout();
     this.service
       .login(this.formlogin.value.email, this.formlogin.value.password)
       .subscribe(
         (data) => {
           this.user = data;
-
-          localStorage.setItem('item', JSON.stringify(this.user));
           if (data.erro === 0) {
-            this.route.navigate(["/"]);
+            localStorage.setItem("item", JSON.stringify(this.user));
+            this.toastr.success("login realizado com sucesso.");
+            if (data.trocarSenha === 1) {
+              this.route.navigate(["primeiro-acesso"]);
+              // this.route.navigate(["/"]);
+            } else {
+              this.route.navigate(["/"]);
+            }
+          } else {
+            this.toastr.error("Senha ou email incorretos.");
           }
         },
         (error) => {}

@@ -12,7 +12,7 @@ export class LoginService {
     user : User;
     constructor(private http:HttpClient, private router: Router) {}
 
-
+    
     isLoggedIn(): boolean {
         const token = localStorage.getItem('item');
         this.user =  JSON.parse(token); 
@@ -32,4 +32,10 @@ export class LoginService {
         this.handleLogin();
     }
 
+    alterSenha(params : any, id: number) {
+        return this.http.put(environment.api + `biprojetos/v1/users/alterarSenha/${id}`, params)
+    }
+
+
 }
+

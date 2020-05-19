@@ -13,9 +13,9 @@
 <div class="header-container">
   <nb-actions size="small">
 
-    <nb-action class="user-action"  >
+    <nb-action class="user-action" *ngIf="this.user" >
       <nb-user [nbContextMenu]="userMenu"
-               [name]="serviceLogin.user.nomeAbreviado">
+               [name]="this.serviceLogin.user.nomeAbreviado.split('')[0]">
       </nb-user>
     </nb-action>
   </nb-actions>

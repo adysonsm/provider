@@ -1,31 +1,36 @@
 <nb-card>
-    <nb-card-header>Adicionar gestor</nb-card-header>
+    <nb-card-header>{{!manager ? "Adicionar gestor" :  "Alterar dados"}}</nb-card-header>
     <nb-card-body>
-        <form action="">
+        <form [formGroup]="formManager">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Nome">
+                <input type="text" class="form-control" formControlName="nome" placeholder="Nome">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Email">
+                <input type="text" class="form-control" formControlName="email" placeholder="Email">
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <input type="text" class="form-control" placeholder="Senha">
-            </div>
-            <div class="form-group">
+            </div> -->
+            <!-- <div class="form-group">
                 <nb-select placeholder="Ativo" class="mr-2">
                     <nb-option value=""></nb-option>
                     <nb-option value="0">SIM</nb-option>
                     <nb-option value="1">NÃO</nb-option>
                 </nb-select>
-            </div>
-            <div class="custom-control custom-checkbox">
+            </div> -->
+            <!-- <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="customCheck1">
                 <label class="custom-control-label" for="customCheck1">Enviar Senha</label>
-            </div>
+            </div> -->
         </form>
     </nb-card-body>
     <nb-card-footer>
-        <button class="cancel" nbButton status="basic" (click)="cancel()">Cancel</button>
-        <button nbButton status="primary" (click)="submit()">Confirmar</button>
+        <button class="cancel" nbButton status="basic" (click)="cancel()">Cancelar</button>
+        <button nbButton status="danger" (click)="delete()" class="mr-2">
+            <nb-icon icon="trash-2-outline" status="control" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+        </button>
+        <button nbButton status="primary" (click)="typeAction()">
+            <nb-icon icon="checkmark-outline" status="control" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+        </button>
     </nb-card-footer>
 </nb-card>

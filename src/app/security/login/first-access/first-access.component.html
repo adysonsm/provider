@@ -1,0 +1,41 @@
+<main class="w-100 h-100">
+    <div class="container p-md-5 ">
+        <div class="row justify-content-center d-flex">
+            <div class="col-md-6 col-sm-12 mt-4">
+                <div class="card">
+                    <div class="card-header">
+                        <p>Notamos que é seu primerio acesso, cadastre uma nova senha para processeguir em nosso sistema
+                        </p>
+                    </div>
+                    <div class="card-body p-md-5 p-sm-2">
+                        <div class="row d-flex justify-content-md-center">
+                            <div class="col-md-6  text-center  mr-3">
+                                <img class="img-fluid header-img" src="assets/images/login-logo.png" alt="" srcset="">
+                            </div>
+                            <div class="col-12">
+                                <form [formGroup]="formlogin">
+                                    <div class="form-group mt-4">
+                                        <label for="exampleFormControlInput1">digite sua senha atual</label>
+                                        <input type="password" class="form-control" formControlName="passwordOld">
+                                    </div>
+                                    <div class="form-group mt-4">
+                                        <label for="exampleFormControlInput1">digite sua nova senha</label>
+                                        <input type="password" class="form-control" formControlName="password">
+                                    </div>
+                                    <div class="form-group mt-4">
+                                        <label for="exampleFormControlInput1">Confirme sua nova senha</label>
+                                        <input type="password2" class="form-control" formControlName="password2">
+                                        <span *ngIf="!equalsPassword()">* os valores devem ser iguais</span>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-lg w-100 25 mb-2 mt-4"
+                                        (click)="updateSenha()"
+                                        [disabled]="!validInput()">Entrar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './security/login/login.component';
 import { LoginService } from './security/login/login.service';
 import { LoggedInGuard } from './security/loggedin.guard';
+import { FirstAccessComponent } from './security/login/first-access/first-access.component';
 
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
       import("./pages/pages.module").then((m) => m.PagesModule), canLoad : [LoggedInGuard]
   },
   {path:"login", component: LoginComponent},
+  {path:"primeiro-acesso", component: FirstAccessComponent},
   { path: '', redirectTo: 'pages', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },
 ];

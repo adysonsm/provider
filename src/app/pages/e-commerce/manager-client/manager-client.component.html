@@ -1,0 +1,38 @@
+<div class="row p-2" *ngIf="client">
+  <div class="col-12 p-1">
+    <a (click)="open3()" class="ml-2">
+      <nb-icon status="primary" icon="person-add-outline" [options]="{ animation: { type: 'zoom' } }"
+        style="font-size: 30px;"></nb-icon>
+    </a>
+
+    <table class="table table-responsive-sm" *ngIf="managers">
+      <thead>
+        <tr>
+          <th scope="col">Nome</th>
+          <th scope="col">Email</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let manager of managers">
+          <td>{{manager.gestorCliente}}</td>
+          <td>{{manager.gcEmail}}</td>
+          <td>
+            <!-- <a (click)="open()">
+                <nb-icon icon="trash-2-outline" status="primary"
+                  [options]="{ animation: { type: 'zoom' } }">
+                </nb-icon>
+              </a> -->
+            <a (click)="open3(manager)">
+              <nb-icon icon="edit-outline" status="primary" [options]="{ animation: { type: 'zoom' } }">
+              </nb-icon>
+            </a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-12 text-center" *ngIf="!managers">
+    <h6>Não há registros</h6>
+  </div>
+
+</div>
