@@ -74,13 +74,14 @@ export class DashboardService {
   }
 
   getGraficoProdutividePeriod(
+    idCliente : number,
     idprojeto: number,
     ano: number,
-    agrupadopor: string
+    agrupadopor: string,
   ) {
     return this.http.get(
       environment.api +
-        `biprojetos/v1/graficos/graficoA/dogestor/${this.idUser}/doprojeto/${idprojeto}/doano/${ano}/agrupadopor/${agrupadopor}`
+        `biprojetos/v1/graficos/graficoA/dogestor/${idCliente}/doprojeto/${idprojeto}/doano/${ano}/agrupadopor/${agrupadopor}`
     );
   }
   getProdutividadePorHorasUteis(idcliente: number, ano : string, agrupadopor: string) {
@@ -115,6 +116,12 @@ export class DashboardService {
     return this.http.get(
       environment.api +
         `biprojetos/v1/graficos/graficoC/dogestor/${idUser}/docliente/${idcliente}/doprofissional/${0}/doano/${ano}/agrupadopor/${agrupadopor}`
+    );
+  }
+  getAllProjects(idcliente : number, year : any) { 
+    return this.http.get(
+      environment.api +
+        `biprojetos/v1/gestores/listagestores/${idcliente}/cnpj/${year}`
     );
   }
 

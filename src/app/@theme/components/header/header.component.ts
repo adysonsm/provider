@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = "default";
 
-  userMenu = [{ title: "Profile" }, { title: "Log out" }];
+  userMenu = [{ title: "Log out" }];
 
   constructor(
     private sidebarService: NbSidebarService,
@@ -56,7 +56,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-
+    
     this.user = this.serviceLogin.user.nomeAbreviado.split("")[0];
     console.log(this.user)
     this.menuService.onItemClick().subscribe(item => this.logout())

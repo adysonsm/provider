@@ -3,7 +3,8 @@
     <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
       <nb-icon icon="menu-2-outline"></nb-icon>
     </a>
-    <a class="logo" href="#" (click)="navigateHome()"><img class="img-fluid" src="assets/images/login-logo.png" alt=""></a>
+    <a class="logo" href="#" (click)="navigateHome()"><img class="img-fluid" src="assets/images/login-logo.png"
+        alt=""></a>
   </div>
   <!-- <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
     <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
@@ -13,10 +14,10 @@
 <div class="header-container">
   <nb-actions size="small">
 
-    <nb-action class="user-action" *ngIf="this.user" >
-      <nb-user [nbContextMenu]="userMenu"
-               [name]="this.serviceLogin.user.nomeAbreviado.split('')[0]">
-      </nb-user>
+    <nb-action class="user-action" *ngIf="this.user">
+      <p [nbContextMenu]="userMenu">
+        <nb-icon icon="log-out-outline"></nb-icon>
+      </p>
     </nb-action>
   </nb-actions>
 </div>

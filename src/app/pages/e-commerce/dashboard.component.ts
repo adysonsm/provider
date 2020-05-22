@@ -77,6 +77,15 @@ export class Dashboard implements OnInit {
 
   listaProfissionais: any;
   listaProfissionaisPeriodo: any;
+
+  yearNow = new Date().getFullYear();
+
+  itemSelectedProjectAll;
+
+  graficsAllProject: any;
+
+  graficoAllProject: any;
+  graficoAlocNumeroPeriodAllprojc: any;
   constructor(
     private dialogService: NbDialogService,
     private serviceLogin: LoginService,
@@ -119,11 +128,13 @@ export class Dashboard implements OnInit {
         this.projectPeriod = data;
         if (data) {
           this.getGraficoPorHoraUteis(
+            this.itemSelected.idCliente,
             this.itemSelected.fkProjeto,
             event.target.value,
             "Ano"
           );
           this.getGraficoPorPeriod(
+            this.itemSelected.idCliente,
             this.itemSelected.fkProjeto,
             event.target.value,
             "MES"
@@ -133,26 +144,23 @@ export class Dashboard implements OnInit {
   }
   selectYearOperation(event: any) {
     this.service
-      .getProjectPeriod(
-        this.itemSelected.fkBaseProjeto,
-        this.itemSelected.idCliente,
-        0,
-        event.target.value
-      )
+      .getAllProjects(this.itemSelected.idCliente, event.target.value)
       .subscribe((data) => {
         this.projectPeriod = data;
-        // if (data) {
-        //   this.getGraficoPorHoraUteis(
-        //     this.itemSelected.fkProjeto,
-        //     event.target.value,
-        //     "Ano"
-        //   );
-        //   this.getGraficoPorPeriod(
-        //     this.itemSelected.fkProjeto,
-        //     event.target.value,
-        //     "MES"
-        //   );
-        // }
+        if (data) {
+          this.getGraficoPorHoraUteis(
+            this.itemSelected.idCliente,
+            99999999,
+            event.target.value,
+            "Ano"
+          );
+          this.getGraficoPorPeriod(
+            this.itemSelected.idCliente,
+            99999999,
+            event.target.value,
+            "MES"
+          );
+        }
       });
   }
 
@@ -171,9 +179,9 @@ export class Dashboard implements OnInit {
     this.service
       .getProjects(item.fkBaseProjeto, item.idCliente)
       .subscribe((data) => {
-        this.gestorNome 
+        this.gestorNome;
         this.projetcs = data;
-        this.gestorNome = this.projetcs[0].gestorNome
+        this.gestorNome = this.projetcs[0].gestorNome;
         this.step++;
       });
   }
@@ -181,6 +189,7 @@ export class Dashboard implements OnInit {
   getProjectPeriod(item) {
     this.itemSelected = item;
     this.gestorNome = item.gestorNome;
+    console.log("testando isso aqui");
     this.service
       .getProjectPeriod(
         item.fkBaseProjeto,
@@ -190,17 +199,23 @@ export class Dashboard implements OnInit {
       )
       .subscribe((data) => {
         if (data) {
-          this.getGraficoPorHoraUteis(item.fkProjeto, 2020, "Ano");
-          this.getGraficoPorPeriod(item.fkProjeto, 2020, "MES");
+          this.getGraficoPorHoraUteis(
+            item.idCliente,
+            item.fkProjeto,
+            2020,
+            "Ano"
+          );
+          this.getGraficoPorPeriod(item.idCliente, item.fkProjeto, 2020, "MES");
         }
 
         this.projectPeriod = data;
-        console.log(data);
         this.step++;
       });
   }
 
   getProfPerProj(item) {
+    console.log(item);
+    console.log(this.SelecteGraficoPeriod);
     let selectedPerido = this.SelecteGraficoPeriod.filter(
       (data) => data.anoMes === item.anoMes
     );
@@ -210,8 +225,8 @@ export class Dashboard implements OnInit {
         selectedPerido
       );
       this.graficoAlocHoratrabalhadas = this.createGraficTotalHoras(
-        parseInt(selectedPerido[0].tHorasMes.replace(":", ",")),
-        parseInt(selectedPerido[0].tHorasTrab.replace(":", "."))
+        parseInt(selectedPerido[0]?.tHorasMes.replace(":", ",")),
+        parseInt(selectedPerido[0]?.tHorasTrab.replace(":", "."))
       );
     }
 
@@ -227,6 +242,34 @@ export class Dashboard implements OnInit {
         this.projectPeriodMonth = data;
         this.step++;
       });
+  }
+
+  getProjecPeridoProfissionais(item) {
+    this.itemSelectedProjectAll = item;
+    let selectedPerido = this.SelecteGraficoPeriod.filter(
+      (data) => +data.anoMes === +item.clienteNomeCurto
+    );
+    this.service
+      .getProjecPeridoProfissionais(
+        item.clienteNomeCurto,
+        this.itemSelected.fkBaseProjeto,
+        this.itemSelected.idCliente,
+        999999
+      )
+      .subscribe((data) => {
+        this.projectPeriodoRecurso = data;
+        this.step++;
+      });
+    if (selectedPerido) {
+      this.graficoAllProject = this.createGrafic(selectedPerido);
+      this.graficoAlocNumeroPeriodAllprojc = this.createGraficNColoboradores(
+        selectedPerido
+      );
+      this.graficoAlocHoratrabalhadas = this.createGraficTotalHoras(
+        parseInt(selectedPerido[0]?.tHorasMes.replace(":", ",")),
+        parseInt(selectedPerido[0]?.tHorasTrab.replace(":", "."))
+      );
+    }
   }
 
   getTimesheet(item, value) {
@@ -250,6 +293,7 @@ export class Dashboard implements OnInit {
         } else {
           this.step++;
         }
+        console.log(this.step, "estou sendo enganado por esse fdp");
       });
   }
 
@@ -264,18 +308,23 @@ export class Dashboard implements OnInit {
 
   getAllProjects() {
     this.service
-      .getProjectPeriod(
-        this.itemSelected.fkBaseProjeto,
-        this.itemSelected.idCliente,
-        0,
-        "2020"
-      )
+      .getAllProjects(this.itemSelected.idCliente, this.yearNow)
       .subscribe((data) => {
-        if (data) {
-          this.getGraficoClienteProjetos(114, 2020, "Ano");
-          // this.getGraficoPorPeriod(this.itemSelected.fkProjeto, 2020, "MES");
-        }
         this.projectPeriod = data;
+        if (data) {
+          this.getGraficoPorHoraUteis(
+            this.itemSelected.idCliente,
+            99999999,
+            this.yearNow,
+            "Ano"
+          );
+          this.getGraficoPorPeriod(
+            this.itemSelected.idCliente,
+            99999999,
+            this.yearNow,
+            "MES"
+          );
+        }
         this.step = 9;
       });
   }
@@ -314,42 +363,34 @@ export class Dashboard implements OnInit {
         this.step++;
       });
   }
-  advanceStep(hideen?: any) {
-    if (hideen) {
-      this.frag = true;
-    }
-    this.step++;
-    if (hideen === 7) {
-      console.log("estou aqui");
-      this.step = 7;
-    }
-
-    if (hideen === 8) {
-      this.step = 8;
-    }
-  }
 
   backStep() {
     this.step--;
   }
 
   backTimeSheet() {
-    console.log("fui chmado amor", this.step);
+    console.log("estou aqui", this.step);
     if (this.step === 6) {
       this.step = 8;
     }
     if (this.step === 11) {
       this.step = 10;
-      console.log("fui chmado amor", this.step);
-    } else {
+    }
+    if (this.step === 5) {
       this.step = 4;
     }
   }
 
-  getGraficoPorPeriod(idprojeto: number, ano: number, agrupadopor: string) {
+  getGraficoPorPeriod(
+    idcliente,
+    idprojeto: number,
+    ano: number,
+    agrupadopor: string
+  ) {
     this.service
-      .getGraficoProdutividePeriod(idprojeto, ano, agrupadopor)
+      .getGraficoProdutividePeriod(idcliente, idprojeto, ano, agrupadopor)
       .subscribe((data) => {
+        this.graficsAllProject = data;
         if (data) {
           this.SelecteGraficoPeriod = data;
           this.graficoProdutividaPeriodo = this.createGrafic(data);
@@ -357,6 +398,8 @@ export class Dashboard implements OnInit {
         }
       });
   }
+
+  getAllProjetPeriodRecursos() {}
 
   getGraficoClienteRecurso(
     id: number,
@@ -389,10 +432,16 @@ export class Dashboard implements OnInit {
         );
       });
   }
-  getGraficoPorHoraUteis(idprojeto: number, ano: number, agrupadopor: string) {
+  getGraficoPorHoraUteis(
+    idCliente,
+    idprojeto: number,
+    ano: number,
+    agrupadopor: string
+  ) {
     this.service
-      .getGraficoProdutividePeriod(idprojeto, ano, agrupadopor)
+      .getGraficoProdutividePeriod(idCliente, idprojeto, ano, agrupadopor)
       .subscribe((data) => {
+        this.graficsAllProject = data;
         this.graficosTotaldehoras = this.createGraficTotalHoras(
           parseInt(data[0].tHorasMes.replace(":", ",")),
           parseInt(data[0].tHorasTrab.replace(":", "."))

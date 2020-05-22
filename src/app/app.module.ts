@@ -15,7 +15,7 @@ import {
   NbWindowModule,
   NbCardModule,
 } from '@nebular/theme';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './security/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoggedInGuard } from './security/loggedin.guard';
@@ -25,12 +25,16 @@ import {ToastrModule} from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartsModule } from 'ng2-charts';
 import { FirstAccessComponent } from './security/login/first-access/first-access.component';
+import { MyLoaderComponent } from './components/my-loader/my-loader.component';
+import { LoaderService } from './services/loader.service';
+import { LoaderInterceptor } from './interceptors/loader-interceptor.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     FirstAccessComponent,
+    MyLoaderComponent,
 
   ],
   imports: [
@@ -58,7 +62,9 @@ import { FirstAccessComponent } from './security/login/first-access/first-access
     ThemeModule.forRoot(),
   ],
     
-  providers: [LoggedInGuard, ManagerService],
+  providers: [LoggedInGuard, ManagerService, 
+    LoaderService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

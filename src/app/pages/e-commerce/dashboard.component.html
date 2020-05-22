@@ -75,10 +75,13 @@
 
       </nb-card-header>
       <nb-card-body class="">
-        <p>Clientes {{selectedFilted.name}} ({{customers.length}})</p>
         <div class="row">
-          <div class="col-md-12 col-12" *ngFor="let item of customers">
-            <nb-list-item class="list-group-item-action align-content-center p-0" (click)="getProjects(item)">
+          <div class="col-md-12 col-12">
+            <nb-list-item class="list-group-item-action align-content-center p-0">
+              <span class="my-2 page-active">Clientes {{selectedFilted.name}} ({{customers.length}})</span>
+            </nb-list-item>
+            <nb-list-item *ngFor="let item of customers" class="list-group-item-action align-content-center p-0"
+              (click)="getProjects(item)">
               <span class="m-2 font-list ">{{item.clienteNomeCurto}}</span>
             </nb-list-item>
           </div>
@@ -242,7 +245,7 @@
                             </tr>
                             <tr *ngIf="!frag">
                               <th scope="row">Operação</th>
-                              <td>{{itemSelected.projetoNome}}</td>
+                              <td>{{itemSelected.numeroProjeto}} - {{itemSelected.projetoNome}}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -253,7 +256,7 @@
                 <div class="row">
                   <div class="col-sm-4 col-12 my-1 ml-2">
                     <div>
-                      <label for="">Selecione o período que deseja visualizar:</label>
+                      <label for="">Informe o ano desejado:</label>
                     </div>
                     <!-- <nb-select placeholder="semestre" class="mr-md-2">
                       <nb-option value=""></nb-option>
@@ -261,7 +264,7 @@
                       <nb-option value="1">2°</nb-option>
                     </nb-select> -->
 
-                    <select class="form-control w-50" (change)="selectYear($event)">
+                    <select class="form-control w-25" (change)="selectYear($event)">
                       <option value="2020">2020</option>
                       <option value="2018">2018</option>
                       <option value="2019">2019</option>
@@ -277,10 +280,11 @@
                         <tr>
 
                           <th scope="col">Períodos</th>
-                          <th scope="col" class="text-center">Total de Recursos</th>
-                          <th scope="col" class="text-center">TH</th>
-                          <th scope="col" class="text-center">THN</th>
-                          <th scope="col" class="text-center">THE</th>
+                          <th scope="col" class="text-center">Qtd. Profissionais</th>
+                          <th scope="col" class="text-center">Normal</th>
+                          <th scope="col" class="text-center">Extra</th>
+                          <th scope="col" class="text-center">Total</th>
+                          <th scope="col" class="text-center">Previsto</th>
 
                         </tr>
                       </thead>
@@ -288,9 +292,10 @@
                         <tr (click)="getProfPerProj(item)" *ngFor="let item of projectPeriod">
                           <th scope="row">{{item.data}}</th>
                           <td class="text-center">{{item.totalProfissionais}}</td>
-                          <td class="text-center">{{item.th}}</td>
                           <td class="text-center">{{item.hn}}</td>
                           <td class="text-center">{{item.he}}</td>
+                          <td class="text-center">{{item.th}}</td>
+                          <td class="text-center">{{item.sa}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -386,23 +391,27 @@
                             </tr>
                             <tr *ngIf="!frag">
                               <th scope="row">Operação</th>
-                              <td>{{itemSelected.projetoNome}}</td>
+                              <td>{{itemSelected.numeroProjeto}} - {{itemSelected.projetoNome}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Período</th>
                               <td>{{itemSelected.data}}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Horas normais</th>
+                              <th scope="row">Normal</th>
                               <td>{{itemSelected.hn}}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Horas extras</th>
+                              <th scope="row">Extra</th>
                               <td>{{itemSelected.he}}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Total de Horas</th>
+                              <th scope="row">Total</th>
                               <td>{{itemSelected.th}}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Previsto</th>
+                              <td>{{itemSelected.sa}}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -418,6 +427,7 @@
                           <th scope="col">Normal</th>
                           <th scope="col">Extra</th>
                           <th scope="col">Total</th>
+                          <th scope="col">Previsto</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -427,6 +437,7 @@
                           <td>{{item.hn}}</td>
                           <td>{{item.he}}</td>
                           <td>{{item.th}}</td>
+                          <td>{{item.clienteNome}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -484,7 +495,7 @@
                   <li class="breadcrumb-item">Unidades</li>
                   <li class="breadcrumb-item">Clientes</li>
                   <li class="breadcrumb-item">Operações</li>
-                  <li class="breadcrumb-item ">{{step === 5 ? "Períodos" : "Recursos"}} </li>
+                  <li class="breadcrumb-item " *ngIf="step !== 11">{{step === 5 ? "Períodos" : "Profissional"}} </li>
                   <li class="breadcrumb-item ">Alocação</li>
                   <li class="breadcrumb-item page-active">Timesheet</li>
                 </ol>
@@ -493,8 +504,6 @@
           </div>
         </div>
       </nb-card-header>
-
-
       <nb-card-body>
         <div class="row">
           <div class="col-12">
@@ -521,25 +530,28 @@
                             </tr>
                             <tr *ngIf="!frag">
                               <th scope="row">Operação</th>
-                              <td>{{timesheet[0].projetoNome}}</td>
+                              <td>{{timesheet[0].numeroProjeto}} - {{timesheet[0].projetoNome}}</td>
                             </tr>
                             <tr>
                               <th scope="row">Período</th>
                               <td>{{timesheet[0].mesAno}}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Horas normais</th>
-                              <td>{{selectPeridoAloc.hn}}</td>
+                              <th scope="row">Normal</th>
+                              <td>{{timesheet[0].clienteNome.split(';')[1]}}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Horas extras</th>
-                              <td>{{selectPeridoAloc.he}}</td>
+                              <th scope="row">Extra</th>
+                              <td>{{timesheet[0].clienteNome.split(';')[2]}}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Totais de horas</th>
-                              <td>{{selectPeridoAloc.th}}</td>
+                              <th scope="row">Total</th>
+                              <td>{{timesheet[0].clienteNome.split(';')[0]}}</td>
                             </tr>
-
+                            <tr>
+                              <th scope="row">Previsto</th>
+                              <td>{{timesheet[0].clienteNome.split(';')[3]}}</td>
+                            </tr>
                           </tbody>
                         </table>
 
@@ -633,7 +645,7 @@
                   <li class="breadcrumb-item">Unidades</li>
                   <li class="breadcrumb-item">Clientes</li>
                   <li class="breadcrumb-item">Operação</li>
-                  <li class="breadcrumb-item page-active">Recursos</li>
+                  <li class="breadcrumb-item page-active">Profissional</li>
                 </ol>
               </nav>
             </div>
@@ -646,7 +658,7 @@
         <div class="row">
           <div class="col-12">
             <nb-tabset>
-              <nb-tab tabTitle="Recursos">
+              <nb-tab tabTitle="Profissional">
                 <div class="row my-2">
                   <div class="col-12">
                     <div class="row my-2">
@@ -678,7 +690,7 @@
                       <thead>
                         <tr>
 
-                          <th scope="col">Recursos</th>
+                          <th scope="col">Profissional</th>
                           <!-- <th scope="col">TH</th>
                           <th scope="col">THN</th>
                           <th scope="col">THE</th>
@@ -731,7 +743,7 @@
                   <li class="breadcrumb-item">Unidades</li>
                   <li class="breadcrumb-item">Clientes</li>
                   <li class="breadcrumb-item">Operação</li>
-                  <li class="breadcrumb-item">Recursos</li>
+                  <li class="breadcrumb-item">Profissional</li>
                   <li class="breadcrumb-item page-active">Alocação</li>
                 </ol>
               </nav>
@@ -781,7 +793,7 @@
                     <div class="row">
                       <div class="col-sm-4 col-12 my-1 ml-2">
                         <div>
-                          <label for="">Selecione o período que deseja visualizar:</label>
+                          <label for="">Informe o ano desejado:</label>
                         </div>
                         <!-- <nb-select placeholder="semestre" class="mr-md-2">
                           <nb-option value=""></nb-option>
@@ -789,7 +801,7 @@
                           <nb-option value="1">2°</nb-option>
                         </nb-select> -->
 
-                        <select class="form-control w-50" (change)="selectYearR($event)">
+                        <select class="form-control w-25" (change)="selectYearR($event)">
                           <option value="2018">2018</option>
                           <option value="2019">2019</option>
                           <option value="2020" selected>2020</option>
@@ -802,19 +814,21 @@
                         <tr>
                           <th scope="col">Período</th>
                           <th scope="col">Operação</th>
-                          <th scope="col">Extras</th>
-                          <th scope="col">Normais</th>
-                          <th scope="col">Totais de horas</th>
+                          <th scope="col">Normal</th>
+                          <th scope="col">Extra</th>
+                          <th scope="col">Total</th>
+                          <th scope="col">Previsto</th>
                         </tr>
                       </thead>
                       <tbody *ngIf="listaProfissionaisPeriodo">
                         <tr (click)="getTimesheet(item, 'all')" *ngFor="let item of listaProfissionaisPeriodo">
                           <td>{{item.data}}</td>
-                          <td>{{item.clienteNomeCurto}}</td>
+                          <td>{{item.numeroProjeto}}-{{item.codigoProjeto.split(';')[1]}}</td>
                           <!-- <td>{{item.}}</td> -->
-                          <td>{{item.clienteNome}}</td>
-                          <td>{{item.clienteNome}}</td>
-                          <td>{{item.clienteNome}}</td>
+                          <td>{{item.clienteNome.split(';')[1]}}</td>
+                          <td>{{item.clienteNome.split(';')[2]}}</td>
+                          <td>{{item.clienteNome.split(';')[0]}}</td>
+                          <td>{{item.clienteNome.split(';')[3]}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -873,7 +887,8 @@
                 <ol class="breadcrumb m-0">
                   <li class="breadcrumb-item">Unidades</li>
                   <li class="breadcrumb-item">Clientes</li>
-                  <li class="breadcrumb-item">Operação</li>
+                  <li class="breadcrumb-item page-active">Operação</li>
+                  <!-- <li class="breadcrumb-item page-active">Operações</li> -->
                 </ol>
               </nav>
             </div>
@@ -914,7 +929,7 @@
                 <div class="row">
                   <div class="col-sm-4 col-12 my-1 ml-2">
                     <div>
-                      <label for="">Selecione o período que deseja visualizar:</label>
+                      <label for="">Informe o ano desejado:</label>
                     </div>
                     <!-- <nb-select placeholder="semestre" class="mr-md-2">
                       <nb-option value=""></nb-option>
@@ -922,7 +937,7 @@
                       <nb-option value="1">2°</nb-option>
                     </nb-select> -->
 
-                    <select class="form-control w-50" (change)="selectYearOperation($event)">
+                    <select class="form-control w-25" (change)="selectYearOperation($event)">
                       <option value="2018">2018</option>
                       <option value="2019">2019</option>
                       <option value="2020" selected>2020</option>
@@ -938,23 +953,22 @@
                         <tr>
 
                           <th scope="col">Períodos</th>
-                          
-                          <th scope="col" class="text-center">Operação</th>
-                          <th scope="col" class="text-center">Total de Recursos</th>
-                          <th scope="col" class="text-center">TH</th>
-                          <th scope="col" class="text-center">THN</th>
-                          <th scope="col" class="text-center">THE</th>
+                          <th scope="col" class="text-center">Qtd. Profissionais</th>
+                          <th scope="col" class="text-center">Normal</th>
+                          <th scope="col" class="text-center">Extra</th>
+                          <th scope="col" class="text-center">Total</th>
+                          <th scope="col" class="text-center">Previsto</th>
 
                         </tr>
                       </thead>
                       <tbody>
-                        <tr (click)="getAllprojectRecurso(item)" *ngFor="let item of projectPeriod">
-                          <th scope="row">{{item.data}}</th>
-                          <td class="text-center">{{item.projetoNome}}</td>
-                          <td class="text-center">{{item.totalProfissionais}}</td>
-                          <td class="text-center">{{item.th}}</td>
-                          <td class="text-center">{{item.hn}}</td>
-                          <td class="text-center">{{item.he}}</td>
+                        <tr (click)="getProjecPeridoProfissionais(item)" *ngFor="let item of projectPeriod">
+                          <th scope="row">{{item.cnpj}}</th>
+                          <td class="text-center">{{item.gestorCliente}}</td>
+                          <td class="text-center">{{item.clienteNome.split(';')[1]}}</td>
+                          <td class="text-center">{{item.clienteNome.split(';')[2]}}</td>
+                          <td class="text-center">{{item.clienteNome.split(';')[0]}}</td>
+                          <td class="text-center">{{item.clienteNome.split(';')[3]}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -964,7 +978,7 @@
                     <div class="row">
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
                         <span class="font-list">Produtividade por Período</span>
-                        <echarts [initOpts]="initOpts" [options]="graficoClienteProejtoProdPerio"></echarts>
+                        <echarts [initOpts]="initOpts" [options]="graficoProdutividaPeriodo"></echarts>
                       </div>
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
                         <p>Horas Úteis & Horas Trabalhadas no Período</p>
@@ -1047,25 +1061,25 @@
                               <th scope="row">Gestor de Negócio</th>
                               <td>{{gestorNome}}</td>
                             </tr>
-                            <tr *ngIf="!frag">
-                              <th scope="row">Operação</th>
-                              <td>{{itemSelected.projetoNome}}</td>
-                            </tr>
                             <tr>
                               <th scope="row">Período</th>
-                              <td>{{itemSelected.data}}</td>
+                              <td>{{itemSelectedProjectAll.cnpj}}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Horas normais</th>
+                              <th scope="row">Normal</th>
                               <td>{{itemSelected.hn}}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Horas extras</th>
+                              <th scope="row">Extras</th>
                               <td>{{itemSelected.he}}</td>
                             </tr>
                             <tr>
-                              <th scope="row">Total de Horas</th>
+                              <th scope="row">Total</th>
                               <td>{{itemSelected.th}}</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Previsto</th>
+                              <td>{{itemSelectedProjectAll.clienteNome.split(';')[3]}}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -1076,20 +1090,22 @@
                     <table class="table table-hover table-responsive-sm">
                       <thead>
                         <tr>
-                          <th scope="col" *ngIf="frag">Operação</th>
                           <th scope="col">Profissional</th>
+                          <th scope="col">Operação</th>
                           <th scope="col">Normal</th>
                           <th scope="col">Extra</th>
                           <th scope="col">Total</th>
+                          <th scope="col">Previsto</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr (click)="getTimesheet(item, 'y')" *ngFor="let item of projectPeriodoRecurso">
-                          <th scope="row" *ngIf="frag">4289 - Liquidação de Renovação</th>
                           <th scope="row">{{item.membroNome}}</th>
+                          <th scope="row">{{item.numeroProjeto}} - {{item.projetoNome}}</th>
                           <td>{{item.hn}}</td>
                           <td>{{item.he}}</td>
                           <td>{{item.th}}</td>
+                          <td>{{item.clienteNome}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -1099,7 +1115,7 @@
                     <div class="row">
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
                         <span class="font-list">Produtividade por Período</span>
-                        <echarts [initOpts]="initOpts" [options]="graficoAlocProdutivdade"></echarts>
+                        <echarts [initOpts]="initOpts" [options]="graficoAllProject"></echarts>
                       </div>
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
                         <p>Horas Úteis & Horas Trabalhadas no Período</p>
@@ -1107,7 +1123,7 @@
                       </div>
                       <div class="col-md-4 col-sm-12 mt-4 text-left">
                         <p>N° de Profissionais Por Período</p>
-                        <echarts [initOpts]="initOpts" [options]="graficoAlocNumeroPeriod"></echarts>
+                        <echarts [initOpts]="initOpts" [options]="graficoAlocNumeroPeriodAllprojc"></echarts>
                       </div>
                     </div>
                   </div>
